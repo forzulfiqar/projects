@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<link rel="stylesheet" type="text/css" href="./css/menu-styles.css" />
+	<link rel="stylesheet" type="text/css" href="./css/styles.css" />
+
+</h:head>
+
+<h:body>
+	<h:form>
+
+		<table width="100%" align="center" cellpadding="0" cellspacing="0"
+			bgcolor="#000000">
+			<tr>
+				<td>
+
+					<table width="100%" cellpadding="0" cellspacing="0">
+						<tr>
+							<td width="4%"></td>
+							<td width="18%" bgcolor="#20B2AA"><font color="#ffffff"><strong>
+										ABC</strong> Tech.</font></td>
+							<td width="78%" align="right">
+								<div
+									style="width: 100%; height: 75px; display: table-cell; vertical-align: middle;">
+									<ul id="navmnue">
+										<li
+											class="#{currentTab.equalsIgnoreCase('home')?'current':''}"><h:outputLink
+												value="home.xhtml">HOME</h:outputLink></li>
+										<li
+											class="#{currentTab.equalsIgnoreCase('about')?'current':''}"><h:outputLink
+												value="about.xhtml">ABOUT</h:outputLink></li>
+										<li
+											class="#{currentTab.equalsIgnoreCase('users')?'current':''}"><h:outputLink
+												value="users.xhtml">USERS</h:outputLink></li>
+										<li
+											class="#{currentTab.equalsIgnoreCase('contactus')?'current':''}"><h:outputLink
+												value="contactus.xhtml">CONTACT US</h:outputLink></li>
+
+									</ul>
+								</div>
+							</td>
+						</tr>
+
+					</table>
+
+				</td>
+			</tr>
+			<tr>
+				<td bgcolor="#20B2AA">
+
+					<div style="min-height: 200px; align:middle;">
+
+						<table cellpadding="20px;" width="70%" align="middle">
+							<tr>	
+								<td width="30%"></td>							
+								<td width="70%"><ui:insert name="content">Default Content</ui:insert></td>
+							</tr>
+						</table>
+
+					</div>
+
+				</td>
+			</tr>
+			<tr>
+
+				<td bgcolor="#000000">
+
+					<div style="min-height: 100px;">
+
+						<table cellspacing="10px;" align="center"
+							style="vertical-align: top;">
+							<tr>
+								<td width="40%" align="left" style="vertical-align: top;"><font
+									color="#ffffff">
+										<h3>ABOUT COMPANY</h3> <br /> This is a simple application to
+										demonstrate Java/J2EE development capability
+								</font></td>
+								<td width="30%" align="left" style="vertical-align: top;"><font
+									color="#ffffff">
+										<h3>PHYSICAL LOCATION</h3> <br /> Office No. 19,<br /> AHC
+										Center,<br /> OH
+								</font></td>
+								<td width="30%" align="left" style="vertical-align: top;"><font
+									color="#ffffff">
+										<h3>SOCIAL LINKS</h3> <br />
+
+										<p style="text-align: left">
+											<!--Facebook icon-->
+											<a href="http://facebook.com" target="_blank"><img alt=""
+												src="./img/facebook-icon.png" /> </a>&nbsp; &nbsp; &nbsp;
+											<!--Twitter icon-->
+											<a href="http://twitter.com" target="_blank"><img alt=""
+												src="./img/twitter-icon.png" /> </a>&nbsp; &nbsp;&nbsp;
+											<!--Google+ icon-->
+											<a href="http://plus.google.com" target="_blank"><img
+												alt="" src="./img/google-plus-icon.png" /> </a>&nbsp;
+											&nbsp;&nbsp;
+											<!--Linkedin icon-->
+											<a href="http://pinterest.com" target="_blank"><img
+												alt="" src="./img/pinterest-icon.png" /> </a>
+										</p>
+
+								</font></td>
+							</tr>
+
+						</table>
+
+					</div>
+
+
+				</td>
+			</tr>
+		</table>
+	</h:form>
+
+</h:body>
+</html>
+
+

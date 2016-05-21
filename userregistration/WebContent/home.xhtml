@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+</h:head>
+
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:param name="currentTab" value="home" />
+		<ui:define name="content">
+			<!--  Page Content starts -->
+			<section id="content-sec">				
+				<div class="overlay text-center">
+					<h1>Home Page</h1>
+					<hr class="hr-set" />
+					<p>Sample App, Java Dev.</p>
+				</div>
+			</section>
+			<!--  Page Content ends -->
+		
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

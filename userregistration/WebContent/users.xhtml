@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+</h:head>
+
+<h:body>
+	<ui:composition template="template.xhtml">
+		<ui:param name="currentTab" value="users" />
+		<ui:define name="content">
+			<!--  Page Content starts -->
+			
+				
+					<h1>Users Page</h1>
+					<hr class="hr-set" /><br/>
+					<h2>Register New User</h2><br/>
+					<h:form>
+						<table width="50%" align="center">
+							<tr>
+								<td>User Name:</td>
+								<td><h:inputText name="userName" id="userName"
+										value="#{user.userName}"></h:inputText></td>
+							</tr>
+							<tr>
+								<td>Password:</td>
+								<td><h:inputSecret name="password" id="password"
+										value="#{user.password}"></h:inputSecret></td>
+							</tr>
+							<tr>
+								<td>Confirm Password:</td>
+								<td><h:inputSecret name="confimPassword"
+										id="confimPassword" value="#{user.password}"></h:inputSecret></td>
+							</tr>
+							<tr>
+								<td>First Name:</td>
+								<td><h:inputText name="firstName" id="firstName"
+										value="#{user.firstName}"></h:inputText></td>
+							</tr>
+							<tr>
+								<td>Last Name:</td>
+								<td><h:inputText name="lastName" id="lastName"
+										value="#{user.lastName}"></h:inputText></td>
+							</tr>
+
+							<tr>
+								<td>Email Address:</td>
+								<td><h:inputText name="emailAddress" id="emailAddress"
+										value="#{user.emailAddress}"></h:inputText></td>
+							</tr>
+
+							<tr>
+								<td>Phone Number:</td>
+								<td><h:inputText name="phoneNumber" id="phoneNumber"
+										value="#{user.phoneNumber}"></h:inputText></td>
+							</tr>
+
+							<tr>
+								<td>Country Id:</td>
+								<td><h:inputText name="countryId" id="countryId"
+										value="#{user.countryId}"></h:inputText></td>
+							</tr>
+
+							<tr>
+								<td><br/></td>
+								<td></td>
+							</tr>
+
+							<tr>
+								<td></td>
+								<td align="left"><h:commandButton name="submitButton" id="submitButton"
+										value=" Register User "
+										action="#{userService.registerUser(user)}" /></td>
+							</tr>
+							
+						</table>
+
+						<br />
+						<br />
+
+
+						<h3>Current Registered Users in System</h3><br/>
+
+
+						<c:if test="${empty userService.listUsers()}">
+							<table class="tg">
+								<tr>
+									<td>No Users</td>
+								</tr>
+							</table>
+						</c:if>
+
+						<c:if test="${!empty userService.listUsers()}">
+							<table  cellspacing="0" cellpadding="0" border="1">
+								<tr align="center">
+									<th width="120">User Name</th>
+									<th width="120">First Name</th>
+									<th width="120">Last Name</th>
+									<th width="80">Email Address</th>
+									<th width="80">Phone Number</th>
+									<th width="120">Country</th>
+
+								</tr>
+								<ui:repeat value="${userService.listUsers()}" var="userObj">
+									<tr align="center">
+										<td>${userObj.userName} </td>
+										<td>${userObj.firstName} </td>
+										<td>${userObj.lastName} </td>
+										<td>${userObj.emailAddress}</td>
+										<td>${userObj.phoneNumber} </td>
+										<td>${userObj.country.name} </td>										
+									</tr>
+								</ui:repeat>
+							</table>							
+						</c:if>
+						
+						<br/>
+
+
+					</h:form>
+				
+			<!--  Page Content ends -->
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>
+
+
