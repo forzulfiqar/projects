@@ -1,4 +1,4 @@
-package game;
+package cardsclient;
 import java.security.MessageDigest;
 
 public class Utility {

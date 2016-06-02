@@ -1,6 +1,7 @@
 package game;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -18,24 +19,52 @@ public class CardsServerAdmin {
 
 		Scanner scan = new Scanner(System.in);
 
-		System.out.println("Please enter username");
+		//System.out.println("Please enter username");
 
-		String userName = scan.nextLine();
-
-		System.out.println("Please enter password");
-
-		String password = scan.nextLine();
-
+		//String userName = scan.nextLine();
+		final String ADMIN_USER_NAME = "admin";
+		
 		System.out.println("Please enter port number to user for server");
 
-		int portNumber = scan.nextInt();
+		int portNumber = Integer.parseInt(scan.nextLine());
 
 		System.out.println("portNumber: " + portNumber);
 
 		System.out.println("Please enter number of players");
 
-		int nubmerOfPlayers = scan.nextInt();
+		int nubmerOfPlayers = Integer.parseInt(scan.nextLine());
 
+		System.out.println("Please enter password for " + ADMIN_USER_NAME);
+		
+		String adminPassword = scan.nextLine();
+		String adminCredentialsFile = "resources/admin.dat";
+		String adminPasswordInFile = null;
+		
+		Hashtable<String, String> credentialsTable = CredentialsReaderHelper.readFileForCredentials(adminCredentialsFile);
+		if(credentialsTable!=null && credentialsTable.get(ADMIN_USER_NAME)!=null) {
+			adminPasswordInFile = credentialsTable.get(ADMIN_USER_NAME);
+		} else {
+			System.out.println("admin password does not exist in " + adminCredentialsFile + " file");
+		}
+		
+		System.out.println("adminPasswordInFile: " + adminPasswordInFile);
+		
+		String hashOfAdminPassword = null;
+		
+		while(true) {
+			hashOfAdminPassword = Utility.getHash(adminPassword);
+			System.out.println("Hash of entered password: " + hashOfAdminPassword);
+			
+			if(!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
+				System.out.println(ADMIN_USER_NAME + " password did not match in our records, please re-enter password");
+				adminPassword = scan.nextLine();
+				continue;
+			} else {
+				break;
+			}
+		}
+		
+		
 		Hashtable<String, Player> players = new Hashtable<String, Player>();
 		
 		try {

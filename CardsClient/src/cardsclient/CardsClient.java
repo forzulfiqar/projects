@@ -5,20 +5,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Hashtable;
 import java.util.Scanner;
+
 
 public class CardsClient {
 	
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-
-		System.out.println("Please enter username");
-		
-		String userName =  scan.nextLine();
-		
-		System.out.println("Please enter password");
-		
-		String password =  scan.nextLine();
 		
 		System.out.println("Please enter IP address of server");
 
@@ -26,7 +20,43 @@ public class CardsClient {
 	    
 	    System.out.println("Please enter port number");
 
-	    int portNumber = scan.nextInt();	    
+	    int portNumber = Integer.parseInt(scan.nextLine());	  
+	    	    
+	    System.out.println("Please enter username");
+		
+		String userName =  scan.nextLine();
+		
+		System.out.println("Please enter password");
+		
+		String password =  scan.nextLine();
+			    	    
+	    String playersCredentialsFile = "resources/players.dat";
+		String userPasswordInFile = null;
+		
+		Hashtable<String, String> credentialsTable = CredentialsReaderHelper.readFileForCredentials(playersCredentialsFile);
+		if(credentialsTable!=null && credentialsTable.get(userName)!=null) {
+			userPasswordInFile = credentialsTable.get(userName);
+		} else {
+			System.out.println("Password for user " + userName + " does not exist in " + playersCredentialsFile + " file");
+		}
+		
+		System.out.println("userPasswordInFile: " + userPasswordInFile);
+		
+		String hashOfUserPassword = null;
+		
+		while(true) {
+			hashOfUserPassword = Utility.getHash(password);
+			System.out.println("Hash of entered password: " + hashOfUserPassword);
+			
+			if(!hashOfUserPassword.equalsIgnoreCase(userPasswordInFile)) {
+				System.out.println("Password for user "+userName + " did not match in our records, please re-enter password");
+				password = scan.nextLine();
+				continue;
+			} else {
+				break;
+			}
+		}
+		
 	    	    
 	    BufferedReader in = null;
 	    PrintWriter out = null;
