@@ -29,36 +29,7 @@ public class CardsClient {
 
 		String password = scan.nextLine();
 
-		String playersCredentialsFile = "resources/players.dat";
-		String userPasswordInFile = null;
-
-		Hashtable<String, String> credentialsTable = CredentialsReaderHelper
-				.readFileForCredentials(playersCredentialsFile);
-		if (credentialsTable != null && credentialsTable.get(userName) != null) {
-			userPasswordInFile = credentialsTable.get(userName);
-		} else {
-			System.out.println(
-					"Password for user " + userName + " does not exist in " + playersCredentialsFile + " file");
-		}
-
-		System.out.println("userPasswordInFile: " + userPasswordInFile);
-
-		String hashOfUserPassword = null;
-
-		while (true) {
-			hashOfUserPassword = Utility.getHash(password);
-			System.out.println("Hash of entered password: " + hashOfUserPassword);
-
-			if (!hashOfUserPassword.equalsIgnoreCase(userPasswordInFile)) {
-				System.out.println(
-						"Password for user " + userName + " did not match in our records, please re-enter password");
-				password = scan.nextLine();
-				continue;
-			} else {
-				break;
-			}
-		}
-
+		
 		BufferedReader in = null;
 		PrintWriter out = null;
 		try {
@@ -67,13 +38,43 @@ public class CardsClient {
 			out = new PrintWriter(socket.getOutputStream(), true);
 
 			// Send username, password to server
-			out.println(userName + "~" + password);
-
-			// Read playerNumber
-			String playerNumberString = in.readLine();
-			System.out.println("You have joined the game successfuly. Your player number is " + playerNumberString
-					+ ". Please wait for next message");
-
+			out.println(userName);
+			String serverMessage = null;
+			serverMessage = in.readLine();
+						
+			if (serverMessage.contains("userexists:")) {
+				System.out.println(serverMessage.substring(serverMessage.indexOf(':') + 1));
+			}
+			if (serverMessage.contains("userdoesnotexist:")) {
+				System.out.println(serverMessage.substring(serverMessage.indexOf(':') + 1));
+				System.exit(0);
+			}
+			
+			//Three password attempts
+			while(true) {
+				out.println(password);	
+				serverMessage = in.readLine();
+				
+				if (serverMessage.contains("allpasswordattemptsfailed:")) {
+					System.out.println("You failed all allowed password attempts");
+					System.exit(0);
+				}
+				
+				if (serverMessage.contains("passworddoesnotmatch:")) {
+					System.out.println(serverMessage.substring(serverMessage.indexOf(':') + 1));
+					password = scan.nextLine();
+					continue;
+				}				
+				
+				
+				if (serverMessage.contains("passwordmatched:")) {
+					System.out.println("You have joined the game successfuly. Your player number is " + serverMessage.substring(serverMessage.indexOf(':') + 1)
+							+ ". Please wait for next message");
+					break;
+				}
+				
+			}
+			
 			String response = null;
 			String firstCardNumber = null;
 			String secondCardNumber = null;

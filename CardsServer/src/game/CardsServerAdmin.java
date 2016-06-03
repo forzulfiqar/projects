@@ -51,21 +51,17 @@ public class CardsServerAdmin {
 		System.out.println("adminPasswordInFile: " + adminPasswordInFile);
 
 		String hashOfAdminPassword = null;
-		
-		while (true) {
-			hashOfAdminPassword = Utility.getHash(adminPassword);
-			System.out.println("Hash of entered password: " + hashOfAdminPassword);
+		/*
+		 * while (true) { hashOfAdminPassword = Utility.getHash(adminPassword);
+		 * System.out.println("Hash of entered password: " +
+		 * hashOfAdminPassword);
+		 * 
+		 * if (!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
+		 * System.out .println(ADMIN_USER_NAME +
+		 * " password did not match in our records, please re-enter password");
+		 * adminPassword = scan.nextLine(); continue; } else { break; } }
+		 */
 
-			if (!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
-				System.out
-						.println(ADMIN_USER_NAME + " password did not match in our records, please re-enter password");
-				adminPassword = scan.nextLine();
-				continue;
-			} else {
-				break;
-			}
-		}
-		
 		Hashtable<String, Player> players = new Hashtable<String, Player>();
 
 		try {
@@ -77,8 +73,7 @@ public class CardsServerAdmin {
 			System.out.println("The Cards Game Server is running.");
 
 			while (currentNumberOfPlayers < nubmerOfPlayers) {
-				System.out.println("Total players required for the game: " + nubmerOfPlayers);
-				System.out.println("Current number of players: " + currentNumberOfPlayers);
+
 				System.out.println("Current players");
 
 				Enumeration playersKeys = players.keys();
@@ -86,11 +81,12 @@ public class CardsServerAdmin {
 					System.out.println(players.get(playersKeys.nextElement()).getLoginName());
 				}
 
-				String messageToSend = "Waiting for all players to join. Current Number of players: " + players.size() + " Total required: " + nubmerOfPlayers;
-				//Message for server
+				String messageToSend = "Waiting for all players to join. Current Number of players: " + players.size()
+						+ ", Total required: " + nubmerOfPlayers;
+				// Message for server
 				System.out.println(messageToSend);
 				messageToSend = "waitingallplayerstojoin: " + messageToSend;
-								
+
 				Enumeration keys = players.keys();
 				Player pl = null;
 				while (keys.hasMoreElements()) {
@@ -98,7 +94,6 @@ public class CardsServerAdmin {
 					pl.sendMessage(messageToSend);
 				}
 
-				currentNumberOfPlayers++;
 				playerSocket = cardsServerObj.accept();
 				BufferedReader in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
 				PrintWriter out = new PrintWriter(playerSocket.getOutputStream(), true);
@@ -106,26 +101,68 @@ public class CardsServerAdmin {
 				CardsClientListener CardsClientListenerObj = new CardsClientListener(in, out);
 				// CardsClientListenerObj.start();
 
-				// Read username, password sent by client
-				String clientData = in.readLine();
+				String clientUserName = null;
+				String clientPassword = null;
+				String playersCredentialsFile = "resources/players.dat";
+				Hashtable<String, String> clientCredentialsTable = CredentialsReaderHelper
+						.readFileForCredentials(playersCredentialsFile);
+				String userPasswordInFile = null;
+				String hashOfUserPassword = null;
 
-				StringTokenizer st2 = new StringTokenizer(clientData, "~");
-				String clientUserName = "" + st2.nextElement();
-				String clientPassword = "" + st2.nextElement();
+				clientUserName = in.readLine();
+				if (clientCredentialsTable != null && clientCredentialsTable.get(clientUserName) != null) {
+					userPasswordInFile = clientCredentialsTable.get(clientUserName);
+					out.println("userexists: userName =  " + clientUserName + " exists in " + playersCredentialsFile
+							+ " file");
+				} else {
+					System.out.println(
+							"userName = " + clientUserName + " tried to login. This username does not exist in " + playersCredentialsFile + " file");
+					out.println("userdoesnotexist: userName =  " + clientUserName + " does not exist in "
+							+ playersCredentialsFile + " file");
+					continue;
+				}
 
+				boolean loginOK = false;
+				int passwordAttemts = 0;
+				while (passwordAttemts < 3) {
+					clientPassword = in.readLine();
+					hashOfUserPassword = Utility.getHash(clientPassword);
+					System.out.println("Hash of entered user password: " + hashOfUserPassword);
+
+					if (!hashOfUserPassword.equalsIgnoreCase(userPasswordInFile)) {
+						passwordAttemts++;
+						if (passwordAttemts >= 3) {
+							out.println("allpasswordattemptsfailed: ");
+						}
+						if (passwordAttemts < 3) {
+							System.out.println("Password for user " + clientUserName + " did not match in records");
+							out.println("passworddoesnotmatch: Password for user " + clientUserName
+									+ " did not match in our records, please re-enter password");
+							Thread.sleep(1000);
+						}
+
+					} else {
+						out.println("passwordmatched: " + (currentNumberOfPlayers + 1));
+						loginOK = true;
+						break;
+					}
+				}
+
+				if (!loginOK) {
+					System.out.println("User " + clientUserName + " did not enter correct password in three attempts");
+					continue;
+				}
+
+				currentNumberOfPlayers++;
 				player = new Player(clientUserName, clientPassword, CardsClientListenerObj, currentNumberOfPlayers);
 				players.put(currentNumberOfPlayers + "", player);
 
-				// Send playerNumber to client for further communication
-				out.println(currentNumberOfPlayers);
-
-				System.out.println();
-				
-				messageToSend = "Player number " + currentNumberOfPlayers + " with username of " + clientUserName + " joined the game";
-				//Message for server
+				messageToSend = "Player number " + currentNumberOfPlayers + " with username of " + clientUserName
+						+ " joined the game";
+				// Message for server
 				System.out.println(messageToSend);
 				messageToSend = "newplayerjoined: " + messageToSend;
-								
+
 				keys = players.keys();
 				pl = null;
 				while (keys.hasMoreElements()) {
@@ -190,9 +227,9 @@ public class CardsServerAdmin {
 
 				String messageToSend = "waitingplayerinput:Waiting for input from player "
 						+ currentPlayer.getPlayerNumber();
-				
+
 				System.out.println(messageToSend);
-				
+
 				Enumeration keys = players.keys();
 				Player pl = null;
 				while (keys.hasMoreElements()) {
@@ -230,10 +267,10 @@ public class CardsServerAdmin {
 						// Send current selection of player to all players
 						keys = players.keys();
 						pl = null;
-						messageToSend = "Player having username " + currentPlayer.getLoginName() + " , and player number = "
-								+ currentPlayer.getPlayerNumber() + " selected " + firstCard.getName() + " of "
-								+ firstCard.getSuit() + " and " + secondCard.getName() + " of " + secondCard.getSuit()
-								+ " which is a match";
+						messageToSend = "Player having username " + currentPlayer.getLoginName()
+								+ " , and player number = " + currentPlayer.getPlayerNumber() + " selected "
+								+ firstCard.getName() + " of " + firstCard.getSuit() + " and " + secondCard.getName()
+								+ " of " + secondCard.getSuit() + " which is a match";
 						while (keys.hasMoreElements()) {
 							pl = players.get(keys.nextElement());
 							pl.sendMessage("matchallplayersmessage:" + messageToSend);
@@ -246,10 +283,10 @@ public class CardsServerAdmin {
 						// Send current selection of player to all players
 						keys = players.keys();
 						pl = null;
-						messageToSend = "Player having username " + currentPlayer.getLoginName() + " and player number = "
-								+ currentPlayer.getPlayerNumber() + " selected " + firstCard.getName() + " of "
-								+ firstCard.getSuit() + " and " + secondCard.getName() + " of " + secondCard.getSuit()
-								+ " which is not a match";
+						messageToSend = "Player having username " + currentPlayer.getLoginName()
+								+ " and player number = " + currentPlayer.getPlayerNumber() + " selected "
+								+ firstCard.getName() + " of " + firstCard.getSuit() + " and " + secondCard.getName()
+								+ " of " + secondCard.getSuit() + " which is not a match";
 						while (keys.hasMoreElements()) {
 							pl = players.get(keys.nextElement());
 							pl.sendMessage("nomatchallplayersmessage:" + messageToSend);
