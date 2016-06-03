@@ -51,16 +51,28 @@ public class CardsServerAdmin {
 		System.out.println("adminPasswordInFile: " + adminPasswordInFile);
 
 		String hashOfAdminPassword = null;
-		/*
-		 * while (true) { hashOfAdminPassword = Utility.getHash(adminPassword);
-		 * System.out.println("Hash of entered password: " +
-		 * hashOfAdminPassword);
-		 * 
-		 * if (!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
-		 * System.out .println(ADMIN_USER_NAME +
-		 * " password did not match in our records, please re-enter password");
-		 * adminPassword = scan.nextLine(); continue; } else { break; } }
-		 */
+
+		boolean loginOK = false;
+		int passwordAttemps = 1;		
+		while (passwordAttemps<3) {
+			passwordAttemps++;
+			hashOfAdminPassword = Utility.getHash(adminPassword);
+			System.out.println("Hash of entered password: " + hashOfAdminPassword);
+
+			if (!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
+				System.out
+						.println(ADMIN_USER_NAME + " password did not match in our records, please re-enter password");
+				adminPassword = scan.nextLine();
+				continue;
+			} else {
+				break;
+			}
+		}
+		
+		if(!loginOK) {
+			System.out.println("Three login attemts are over. Server cannot be started. Please re-try.");
+			System.exit(0);
+		}
 
 		Hashtable<String, Player> players = new Hashtable<String, Player>();
 
@@ -115,14 +127,14 @@ public class CardsServerAdmin {
 					out.println("userexists: userName =  " + clientUserName + " exists in " + playersCredentialsFile
 							+ " file");
 				} else {
-					System.out.println(
-							"userName = " + clientUserName + " tried to login. This username does not exist in " + playersCredentialsFile + " file");
+					System.out.println("userName = " + clientUserName
+							+ " tried to login. This username does not exist in " + playersCredentialsFile + " file");
 					out.println("userdoesnotexist: userName =  " + clientUserName + " does not exist in "
 							+ playersCredentialsFile + " file");
 					continue;
 				}
 
-				boolean loginOK = false;
+				loginOK = false;
 				int passwordAttemts = 0;
 				while (passwordAttemts < 3) {
 					clientPassword = in.readLine();
