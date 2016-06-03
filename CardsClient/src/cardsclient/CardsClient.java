@@ -44,6 +44,7 @@ public class CardsClient {
 		
 		String hashOfUserPassword = null;
 		
+		/*
 		while(true) {
 			hashOfUserPassword = Utility.getHash(password);
 			System.out.println("Hash of entered password: " + hashOfUserPassword);
@@ -56,6 +57,7 @@ public class CardsClient {
 				break;
 			}
 		}
+		*/
 		
 	    	    
 	    BufferedReader in = null;
@@ -71,7 +73,7 @@ public class CardsClient {
                 
         //Read playerNumber
         String playerNumberString = in.readLine();        
-        System.out.println("Player Number: " + playerNumberString);
+        System.out.println("You have joined the game successfuly. Your player number is " + playerNumberString + ". Please wait for next message");
         
         String response = null;       
         String firstCardNumber = null;
@@ -90,12 +92,12 @@ public class CardsClient {
         		if(response.contains("inputcardnumbers:")) {
         			System.out.println("Please enter first card number");
         			firstCardNumber =  scan.nextLine();
-        			Thread.sleep(1000);
+        			//Thread.sleep(1000);
         			System.out.println("Please enter second card number");
         			secondCardNumber =  scan.nextLine();
-        			Thread.sleep(1000);
+        			//Thread.sleep(1000);
         			out.println(firstCardNumber+"~"+secondCardNumber); 
-        			Thread.sleep(timeToSleep);
+        			//Thread.sleep(timeToSleep);
         			continue;
         		}        		
         		if(response.contains("over:")) {

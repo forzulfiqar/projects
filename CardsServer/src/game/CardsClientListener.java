@@ -43,8 +43,16 @@ public class CardsClientListener {
 		this.out = out;
 	}
 	
-	
-	
-	
+	public void sendMessage(String message) {
+		out.println(message);
+	}		
+	public String readMessage() {
+		try {
+			return in.readLine();
+		} catch(Exception e) {
+			System.out.println("Exceptin reading message: " + e);
+		}
+		return null;
+	}
 }
 

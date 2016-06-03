@@ -19,12 +19,12 @@ public class CardsServerAdmin {
 
 		Scanner scan = new Scanner(System.in);
 
-		//System.out.println("Please enter username");
+		// System.out.println("Please enter username");
 
-		//String userName = scan.nextLine();
+		// String userName = scan.nextLine();
 		final String ADMIN_USER_NAME = "admin";
-		
-		System.out.println("Please enter port number to user for server");
+
+		System.out.println("Please enter port number for server");
 
 		int portNumber = Integer.parseInt(scan.nextLine());
 
@@ -35,38 +35,41 @@ public class CardsServerAdmin {
 		int nubmerOfPlayers = Integer.parseInt(scan.nextLine());
 
 		System.out.println("Please enter password for " + ADMIN_USER_NAME);
-		
+
 		String adminPassword = scan.nextLine();
 		String adminCredentialsFile = "resources/admin.dat";
 		String adminPasswordInFile = null;
-		
-		Hashtable<String, String> credentialsTable = CredentialsReaderHelper.readFileForCredentials(adminCredentialsFile);
-		if(credentialsTable!=null && credentialsTable.get(ADMIN_USER_NAME)!=null) {
+
+		Hashtable<String, String> credentialsTable = CredentialsReaderHelper
+				.readFileForCredentials(adminCredentialsFile);
+		if (credentialsTable != null && credentialsTable.get(ADMIN_USER_NAME) != null) {
 			adminPasswordInFile = credentialsTable.get(ADMIN_USER_NAME);
 		} else {
 			System.out.println("admin password does not exist in " + adminCredentialsFile + " file");
 		}
-		
+
 		System.out.println("adminPasswordInFile: " + adminPasswordInFile);
-		
+
 		String hashOfAdminPassword = null;
-		
-		while(true) {
+
+		/*
+		while (true) {
 			hashOfAdminPassword = Utility.getHash(adminPassword);
 			System.out.println("Hash of entered password: " + hashOfAdminPassword);
-			
-			if(!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
-				System.out.println(ADMIN_USER_NAME + " password did not match in our records, please re-enter password");
+
+			if (!hashOfAdminPassword.equalsIgnoreCase(adminPasswordInFile)) {
+				System.out
+						.println(ADMIN_USER_NAME + " password did not match in our records, please re-enter password");
 				adminPassword = scan.nextLine();
 				continue;
 			} else {
 				break;
 			}
 		}
-		
-		
+		*/
+
 		Hashtable<String, Player> players = new Hashtable<String, Player>();
-		
+
 		try {
 			ServerSocket cardsServerObj = new ServerSocket(portNumber);
 			int currentNumberOfPlayers = 0;
@@ -76,156 +79,167 @@ public class CardsServerAdmin {
 			System.out.println("The Cards Game Server is running.");
 
 			while (currentNumberOfPlayers < nubmerOfPlayers) {
-				System.out.println("Total players required for the game: " + nubmerOfPlayers );
+				System.out.println("Total players required for the game: " + nubmerOfPlayers);
 				System.out.println("Current number of players: " + currentNumberOfPlayers);
 				System.out.println("Current players");
-				
+
 				Enumeration playersKeys = players.keys();
-				while(playersKeys.hasMoreElements()) {
+				while (playersKeys.hasMoreElements()) {
 					System.out.println(players.get(playersKeys.nextElement()).getLoginName());
 				}
-				
+
 				System.out.println("Waiting for all players to join");
-												
+
 				currentNumberOfPlayers++;
 				playerSocket = cardsServerObj.accept();
 				BufferedReader in = new BufferedReader(new InputStreamReader(playerSocket.getInputStream()));
 				PrintWriter out = new PrintWriter(playerSocket.getOutputStream(), true);
 
 				CardsClientListener CardsClientListenerObj = new CardsClientListener(in, out);
-				//CardsClientListenerObj.start();
+				// CardsClientListenerObj.start();
 
-				//Read username, password sent by client
+				// Read username, password sent by client
 				String clientData = in.readLine();
 
 				StringTokenizer st2 = new StringTokenizer(clientData, "~");
 				String clientUserName = "" + st2.nextElement();
 				String clientPassword = "" + st2.nextElement();
-				
-				player = new Player(clientUserName, clientPassword, CardsClientListenerObj, currentNumberOfPlayers);
-				players.put(currentNumberOfPlayers+"", player);
 
-				//Send playerNumber to client for further communication
+				player = new Player(clientUserName, clientPassword, CardsClientListenerObj, currentNumberOfPlayers);
+				players.put(currentNumberOfPlayers + "", player);
+
+				// Send playerNumber to client for further communication
 				out.println(currentNumberOfPlayers);
-				
-				System.out.println("Player number " + currentNumberOfPlayers + " joined the game");
-				
+
+				System.out.println("Player number " + currentNumberOfPlayers + " with username of " + clientUserName + " joined the game");
+
 			}
-			
+
 			System.out.println("The game begins");
-						
+
 			Dealer dealer = new Dealer();
 			dealer.shuffleCards();
-			
+
 			int cardsInTable = 15;
-			for(int i=0;i<cardsInTable;i++){
-				dealer.appendCard(dealer.dealCard());								
-		    }
-						
+			for (int i = 0; i < cardsInTable; i++) {
+				dealer.appendCard(dealer.dealCard());
+			}
+
 			int currentPlayerNumberPlaying = 0;
 			Player currentPlayer = null;
 			String enterCardNumbersStatement = "inputcardnumbers:Please enter number of first card between 1 and 15";
-			//String enterSecondCardStatement = "input2:Please enter number of second card between 1 and 15";
+			// String enterSecondCardStatement = "input2:Please enter number of
+			// second card between 1 and 15";
 			String cardNumbers = null;
 			String firstCardNumber;
 			String secondCardNumber;
-			int timeToSleep = 3000;
-			while(true) {
+			int timeToSleep = 1000;
+			while (true) {
 				currentPlayerNumberPlaying++;
-				
-				if(currentPlayerNumberPlaying>nubmerOfPlayers) {
-					//Send current selection of player to all players
-					Enumeration keys =  players.keys();
+
+				if (currentPlayerNumberPlaying > nubmerOfPlayers) {
+					// Send current selection of player to all players
+					Enumeration keys = players.keys();
 					Player pl = null;
-					StringBuilder messageToSend = new StringBuilder("All players have taken turns. Game is over. Final Score:");
-					while(keys.hasMoreElements()) {
+					StringBuilder messageToSend = new StringBuilder(
+							"All players have taken turns. Game is over. Final Score:");
+					while (keys.hasMoreElements()) {
 						pl = players.get(keys.nextElement());
 						messageToSend.append(", Player " + pl.getPlayerNumber() + " Score: " + pl.getWins());
-						//pl.getCardsClientListenerObj().getOut().println("over:" + messageToSend);
 					}
-					
+
 					System.out.println(messageToSend.toString());
-					
-					keys =  players.keys();
-					pl = null;					
-					while(keys.hasMoreElements()) {
-						pl = players.get(keys.nextElement());						
-						pl.getCardsClientListenerObj().getOut().println("over:" + messageToSend.toString());
+
+					keys = players.keys();
+					pl = null;
+					while (keys.hasMoreElements()) {
+						pl = players.get(keys.nextElement());
+						pl.sendMessage("over:" + messageToSend.toString());
 					}
-					
+
+					// Give some time for clients to consume the messages
 					Thread.sleep(timeToSleep);
-					
+
 					System.exit(0);
-					
+
 				}
-				
-				currentPlayer = players.get(currentPlayerNumberPlaying+"");
+
+				currentPlayer = players.get(currentPlayerNumberPlaying + "");
 				Card firstCard = null;
 				Card secondCard = null;
+
+				String messageToSend = "waitingplayerinput:Waiting for input from player "
+						+ currentPlayer.getPlayerNumber();
 				
-				String messageToSend = "waitingplayerinput:Waiting for input from player " + currentPlayer.getPlayerNumber();
-				Enumeration keys =  players.keys();
-				Player pl = null;					
-				while(keys.hasMoreElements()) {
-					pl = players.get(keys.nextElement());						
-					pl.getCardsClientListenerObj().getOut().println(messageToSend);
-				}		
+				System.out.println(messageToSend);
 				
-				while(true) {	
-					
-					currentPlayer.getCardsClientListenerObj().getOut().println(enterCardNumbersStatement);
-					cardNumbers = currentPlayer.getCardsClientListenerObj().getIn().readLine();
+				Enumeration keys = players.keys();
+				Player pl = null;
+				while (keys.hasMoreElements()) {
+					pl = players.get(keys.nextElement());
+					pl.sendMessage(messageToSend);
+				}
+
+				while (true) {
+					currentPlayer.sendMessage(enterCardNumbersStatement);
+					cardNumbers = currentPlayer.readMessage();
 					StringTokenizer st2 = new StringTokenizer(cardNumbers, "~");
 					firstCardNumber = "" + st2.nextElement();
 					secondCardNumber = "" + st2.nextElement();
-					
+
 					firstCard = dealer.getCardChosen(Integer.parseInt(firstCardNumber));
 					secondCard = dealer.getCardChosen(Integer.parseInt(secondCardNumber));
-					//check if match
-					if(firstCard.isSameSuit(secondCard)) {						
-						currentPlayer.getCardsClientListenerObj().getOut().println("matched:Cards matched, continue please");
-						currentPlayer.setWins(currentPlayer.getWins()+1);
-						
-						if(dealer.getTableLength()>0) {
+					// check if match
+					if (firstCard.isSameSuit(secondCard)) {
+						currentPlayer.sendMessage("matched:Cards matched, continue please");
+						currentPlayer.setWins(currentPlayer.getWins() + 1);
+
+						if (dealer.getTableLength() > 0) {
 							dealer.replaceCardInTable(Integer.parseInt(firstCardNumber), dealer.dealCard());
 						} else {
-							currentPlayer.getCardsClientListenerObj().getOut().println("over:Cards finished in the deck, game over");
+							currentPlayer.sendMessage("over:Cards finished in the deck, game over");
 							System.exit(0);
 						}
-						if(dealer.getTableLength()>0) {
+						if (dealer.getTableLength() > 0) {
 							dealer.replaceCardInTable(Integer.parseInt(secondCardNumber), dealer.dealCard());
 						} else {
-							currentPlayer.getCardsClientListenerObj().getOut().println("over:Cards finished in the deck, game over");
+							currentPlayer.sendMessage("over:Cards finished in the deck, game over");
 							System.exit(0);
 						}
-						
-						//Send current selection of player to all players
-						keys =  players.keys();
+
+						// Send current selection of player to all players
+						keys = players.keys();
 						pl = null;
-						messageToSend = "Player having username " + currentPlayer.getLoginName() + " , player number " + currentPlayer.getPlayerNumber() + " selected " + firstCard.getName() + " of " + firstCard.getSuit() + " and " +  secondCard.getName() + " of "+ secondCard.getSuit() +" which is a match";
-						while(keys.hasMoreElements()) {
+						messageToSend = "Player having username " + currentPlayer.getLoginName() + " , and player number = "
+								+ currentPlayer.getPlayerNumber() + " selected " + firstCard.getName() + " of "
+								+ firstCard.getSuit() + " and " + secondCard.getName() + " of " + secondCard.getSuit()
+								+ " which is a match";
+						while (keys.hasMoreElements()) {
 							pl = players.get(keys.nextElement());
-							pl.getCardsClientListenerObj().getOut().println("matchallplayersmessage:" + messageToSend);
+							pl.sendMessage("matchallplayersmessage:" + messageToSend);
 						}
 						System.out.println(messageToSend);
-						
+
 						continue;
 					} else {
-						currentPlayer.getCardsClientListenerObj().getOut().println("nomatch:Cards did not match, your turn is over");						
-						//Send current selection of player to all players
-						keys =  players.keys();
+						currentPlayer.sendMessage("nomatch:Cards did not match, your turn is over");
+						// Send current selection of player to all players
+						keys = players.keys();
 						pl = null;
-						messageToSend = "Player having username" + currentPlayer.getLoginName() + " and player number " + currentPlayer.getPlayerNumber() + " selected " + firstCard.getName() + " of " + firstCard.getSuit() + " and " +  secondCard.getName() + " of "+ secondCard.getSuit() +" which is not a match";
-						while(keys.hasMoreElements()) {
+						messageToSend = "Player having username " + currentPlayer.getLoginName() + " and player number = "
+								+ currentPlayer.getPlayerNumber() + " selected " + firstCard.getName() + " of "
+								+ firstCard.getSuit() + " and " + secondCard.getName() + " of " + secondCard.getSuit()
+								+ " which is not a match";
+						while (keys.hasMoreElements()) {
 							pl = players.get(keys.nextElement());
-							pl.getCardsClientListenerObj().getOut().println("nomatchallplayersmessage:" + messageToSend);
+							pl.sendMessage("nomatchallplayersmessage:" + messageToSend);
 						}
 						System.out.println(messageToSend);
 						break;
-					}					
+					}
 				}
-			}						
-			
+			}
+
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		}

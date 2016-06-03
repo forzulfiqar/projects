@@ -43,5 +43,11 @@ public class Player extends User {
 		this.playerNumber = playerNumber;
 	}
 	
+	public void sendMessage(String message) {
+		cardsClientListenerObj.sendMessage(message);
+	}		
+	public String readMessage() {
+		return cardsClientListenerObj.readMessage();
+	}	
 	
 }
