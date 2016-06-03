@@ -65,6 +65,7 @@ public class CardsServerAdmin {
 				adminPassword = scan.nextLine();
 				continue;
 			} else {
+				loginOK = true;
 				break;
 			}
 		}
@@ -256,8 +257,8 @@ public class CardsServerAdmin {
 					firstCardNumber = "" + st2.nextElement();
 					secondCardNumber = "" + st2.nextElement();
 
-					firstCard = dealer.getCardChosen(Integer.parseInt(firstCardNumber));
-					secondCard = dealer.getCardChosen(Integer.parseInt(secondCardNumber));
+					firstCard = dealer.getCardChosen(Integer.parseInt(firstCardNumber)-1);
+					secondCard = dealer.getCardChosen(Integer.parseInt(secondCardNumber)-1);
 					// check if match
 					if (firstCard.isSameSuit(secondCard)) {
 						currentPlayer.sendMessage("matched:Cards matched, continue please");

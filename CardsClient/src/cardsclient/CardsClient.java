@@ -99,10 +99,10 @@ public class CardsClient {
 					}
 
 					if (response.contains("inputcardnumbers:")) {
-						System.out.println("Please enter first card number");
+						System.out.println("Please enter first card number between 1 and 15");
 						firstCardNumber = scan.nextLine();
 						// Thread.sleep(1000);
-						System.out.println("Please enter second card number");
+						System.out.println("Please enter second card number between 1 and 15");
 						secondCardNumber = scan.nextLine();
 						// Thread.sleep(1000);
 						out.println(firstCardNumber + "~" + secondCardNumber);
