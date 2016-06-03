@@ -51,8 +51,7 @@ public class CardsServerAdmin {
 		System.out.println("adminPasswordInFile: " + adminPasswordInFile);
 
 		String hashOfAdminPassword = null;
-
-		/*
+		
 		while (true) {
 			hashOfAdminPassword = Utility.getHash(adminPassword);
 			System.out.println("Hash of entered password: " + hashOfAdminPassword);
@@ -66,8 +65,7 @@ public class CardsServerAdmin {
 				break;
 			}
 		}
-		*/
-
+		
 		Hashtable<String, Player> players = new Hashtable<String, Player>();
 
 		try {
