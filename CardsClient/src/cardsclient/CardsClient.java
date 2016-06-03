@@ -83,11 +83,20 @@ public class CardsClient {
         	try {
         		response = in.readLine(); 
         		
-        		if(response.contains("waitingplayerinput:")) {
+        		if(response.contains("waitingallplayerstojoin:")) {
         			System.out.println(response.substring(response.indexOf(':')+1));
         			continue;
         		}
         		
+        		if(response.contains("newplayerjoined:")) {
+        			System.out.println(response.substring(response.indexOf(':')+1));
+        			continue;
+        		}        		       		
+        		
+        		if(response.contains("waitingplayerinput:")) {
+        			System.out.println(response.substring(response.indexOf(':')+1));
+        			continue;
+        		}        		
         		
         		if(response.contains("inputcardnumbers:")) {
         			System.out.println("Please enter first card number");

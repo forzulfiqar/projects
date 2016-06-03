@@ -88,7 +88,17 @@ public class CardsServerAdmin {
 					System.out.println(players.get(playersKeys.nextElement()).getLoginName());
 				}
 
-				System.out.println("Waiting for all players to join");
+				String messageToSend = "Waiting for all players to join. Current Number of players: " + players.size() + " Total required: " + nubmerOfPlayers;
+				//Message for server
+				System.out.println(messageToSend);
+				messageToSend = "waitingallplayerstojoin: " + messageToSend;
+								
+				Enumeration keys = players.keys();
+				Player pl = null;
+				while (keys.hasMoreElements()) {
+					pl = players.get(keys.nextElement());
+					pl.sendMessage(messageToSend);
+				}
 
 				currentNumberOfPlayers++;
 				playerSocket = cardsServerObj.accept();
@@ -111,7 +121,19 @@ public class CardsServerAdmin {
 				// Send playerNumber to client for further communication
 				out.println(currentNumberOfPlayers);
 
-				System.out.println("Player number " + currentNumberOfPlayers + " with username of " + clientUserName + " joined the game");
+				System.out.println();
+				
+				messageToSend = "Player number " + currentNumberOfPlayers + " with username of " + clientUserName + " joined the game";
+				//Message for server
+				System.out.println(messageToSend);
+				messageToSend = "newplayerjoined: " + messageToSend;
+								
+				keys = players.keys();
+				pl = null;
+				while (keys.hasMoreElements()) {
+					pl = players.get(keys.nextElement());
+					pl.sendMessage(messageToSend);
+				}
 
 			}
 
