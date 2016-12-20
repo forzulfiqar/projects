@@ -71,7 +71,7 @@
 								<td></td>
 								<td align="left"><h:commandButton name="submitButton" id="submitButton"
 										value=" Register User "
-										action="#{userService.registerUser(user)}" /></td>
+										action="#{userServiceSpringBean.registerUser(user)}" /></td>
 							</tr>
 							
 						</table>
@@ -83,7 +83,7 @@
 						<h3>Current Registered Users in System</h3><br/>
 
 
-						<c:if test="${empty userService.listUsers()}">
+						<c:if test="${empty userServiceSpringBean.listUsers()}">
 							<table class="tg">
 								<tr>
 									<td>No Users</td>
@@ -91,7 +91,7 @@
 							</table>
 						</c:if>
 
-						<c:if test="${!empty userService.listUsers()}">
+						<c:if test="${!empty userServiceSpringBean.listUsers()}">
 							<table  cellspacing="0" cellpadding="0" border="1">
 								<tr align="center">
 									<th width="120">User Name</th>
@@ -102,7 +102,7 @@
 									<th width="120">Country</th>
 
 								</tr>
-								<ui:repeat value="${userService.listUsers()}" var="userObj">
+								<ui:repeat value="${userServiceSpringBean.listUsers()}" var="userObj">
 									<tr align="center">
 										<td>${userObj.userName} </td>
 										<td>${userObj.firstName} </td>

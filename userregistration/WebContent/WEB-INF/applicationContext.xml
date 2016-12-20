@@ -68,7 +68,7 @@
 		<beans:property name="sessionFactory"
 			ref="hibernate4AnnotatedSessionFactory" />
 	</beans:bean>
-	<beans:bean id="userService"
+	<beans:bean id="userServiceSpringBean"
 		class="com.userregistration.service.UserServiceImpl" scope="session">
 		<beans:property name="userDAO" ref="userDAO"></beans:property>
 	</beans:bean>
