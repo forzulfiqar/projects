@@ -31,10 +31,7 @@ public class Role {
 
 	@Column(name = "name")
 	private String name;
-
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
-	private Set<User> users = new HashSet<User>(0);
-
+	
 	public long getId() {
 		return id;
 	}
@@ -49,14 +46,6 @@ public class Role {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
 	}
 
 }

@@ -17,7 +17,7 @@ contactApp.controller("UserController", function($scope, $http) {
 			});
 	};
 	
-	$scope.create = function(user) {		
+	$scope.create = function() {		
 		$http.put('rest/users/rest/createuser', $scope.user)
 			.success(function() {
 				$scope.user = {};
