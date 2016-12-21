@@ -45,5 +45,11 @@ public class UserDAOImpl implements UserDAO {
         }
         return usersList;
     }
+    
+    public User getUserById(long id) {
+    	Session session = this.sessionFactory.getCurrentSession();    	
+    	User user = (User) session.get(User.class, id);
+    	return user;
+    }
 
 }

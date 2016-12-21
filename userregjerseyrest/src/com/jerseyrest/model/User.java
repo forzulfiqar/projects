@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 
 /**
  * 
@@ -55,16 +57,10 @@ public class User {
 	@Column(name = "country_id")
 	private long countryId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id", insertable = false, updatable = false, nullable = false)
 	private Country country;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = {
-			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "role_id", referencedColumnName = "id") })
-	private Set<Role> roles = new HashSet<Role>(0);
-
+	
 	public long getId() {
 		return id;
 	}
@@ -136,13 +132,5 @@ public class User {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
+	
 }

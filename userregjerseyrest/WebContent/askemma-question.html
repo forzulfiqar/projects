@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script src="js/angular/angular.min.js"></script>
+<script src="js/jQuery/dist/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="js/bootstrap/dist/css/bootstrap.min.css" />
+<script src="js/contactApp/contactApp.js"></script>
+<style type="text/css">
+a {
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div class="container" ng-app="AskEmmaApp"
+		ng-controller="AskEmmaController">
+		<h1>Ask Emma Question</h1>
+		<form>
+			<button type="submit" class="btn btn-default" ng-click="sendQuestion()">Send Question</button>
+			<hr />			
+		</form>
+	</div>
+</body>
+</html>
