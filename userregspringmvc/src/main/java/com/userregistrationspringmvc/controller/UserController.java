@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.userregistrationspringmvc.dao.UserDAO;
 import com.userregistrationspringmvc.model.User;
 import com.userregistrationspringmvc.model.Country;
+import com.userregistrationspringmvc.model.Region;
 
 @Controller
 @RequestMapping("/users")
@@ -67,5 +68,17 @@ public class UserController {
 		model.addObject("countries", countries);
 		return model;
 	}
+	
+	@RequestMapping(value = "/listregions", method = RequestMethod.GET)
+	public ModelAndView listRegions() {
+
+		System.out.println("In listRegions");
+		
+		List<Region> listRegions = this.userDAO.listRegions();
+		ModelAndView model = new ModelAndView("regioncountries");
+		model.addObject("regionsList", listRegions);		
+		return model;
+	}
+
 
 }

@@ -16,12 +16,12 @@ import javax.persistence.Table;
 /**
  * 
  * @author zulfiqar
- * This class is to contain all roles in applications
+ * This class is to contain all roles in application
  */
 
 @Entity
 @Table(name = "role")
-@ManagedBean(name = "role")
+//@ManagedBean(name = "role")
 public class Role {
 
 	@Id

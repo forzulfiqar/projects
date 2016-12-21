@@ -23,7 +23,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "region")
-@ManagedBean(name = "region")
+//@ManagedBean(name = "region")
 public class Region {
 
 	@Id

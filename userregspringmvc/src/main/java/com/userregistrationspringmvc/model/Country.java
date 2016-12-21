@@ -25,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "country")
-@ManagedBean(name = "country")
+//@ManagedBean(name = "country")
 public class Country {
 
 	@Id

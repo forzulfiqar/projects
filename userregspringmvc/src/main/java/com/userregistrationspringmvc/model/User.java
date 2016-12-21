@@ -20,12 +20,12 @@ import javax.persistence.Table;
 /**
  * 
  * @author zulfiqar
- * Any type of user in the applicaiton
+ * Any type of user in the application
  */
 
 @Entity
 @Table(name = "userofapp")
-@ManagedBean(name = "user")
+//@ManagedBean(name = "user")
 public class User {
 
 	@Id
