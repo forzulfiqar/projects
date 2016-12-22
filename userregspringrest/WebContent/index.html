@@ -1,47 +1,71 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
-		<script src="js/angular/angular.min.js"></script>
-        <script src="js/jQuery/dist/jquery.min.js"></script>
-        
-        <link rel="stylesheet" type="text/css" 
-            href="js/bootstrap/dist/css/bootstrap.min.css" />
-        <script src="js/contactApp/contactApp.js"></script>
-		<style type="text/css">
-			a { cursor: pointer; }
-		</style>
-	</head>
-	<body>
-        <div class="container" ng-app="UserApp" ng-controller="UserController">
-            <h1>Restful Java Backend</h1>
-            
-            <form>
-            	<div class="form-group">
-            		<label>Full name:</label>
-            		<input required type="text" class="form-control" ng-model="user.firstName"/>
-            	</div>
-            	<div class="form-group">
-            		<label>Email Address:</label>
-            		<input required type="email" class="form-control" ng-model="user.emailAddress"/>
-            	</div>
-            	<div class="form-group">
-            		<label>Phone Number:</label>
-            		<input required type="tel" class="form-control" ng-model="user.phoneNumber"/>
-            	</div>
-            	
-            	<button type="submit" class="btn btn-default" ng-click="create()">Create</button>
-            	<hr/>
-            	<div class="panel panel-default">
-	            	<div class="panel-body">
-		            	<ul>
-		            		<li ng-repeat="curUser in users">
-		            			<a ng-click="get(curUser.id)">{{curUser.firstName}} - {{curUser.emailAddress}}</a>
-		            		</li>
-		            	</ul>
-		            </div>
-            	</div>
-            </form>
-        </div>
-	</body>
+<head>
+<title></title>
+<script src="js/angular/angular.min.js"></script>
+<script src="js/jQuery/dist/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="js/bootstrap/dist/css/bootstrap.min.css" />
+<script src="js/contactApp/contactApp.js"></script>
+<style type="text/css">
+a {
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div class="container" ng-app="UserApp"
+		ng-controller="UserController">
+		<h1>Restful Java Backend</h1>
+
+		<form>
+			<div class="form-group">
+				<label>User Name:</label> <input required type="text"
+					class="form-control" ng-model="user.userName" />
+			</div>	
+			<div class="form-group">
+				<label>Password:</label> <input required type="text"
+					class="form-control" ng-model="user.password" />
+			</div>			
+			<div class="form-group">
+				<label>First Name:</label> <input required type="text"
+					class="form-control" ng-model="user.firstName" />
+			</div>
+			<div class="form-group">
+				<label>Last name:</label> <input required type="text"
+					class="form-control" ng-model="user.lastName" />
+			</div>
+			<div class="form-group">
+				<label>Email Address:</label> <input required type="email"
+					class="form-control" ng-model="user.emailAddress" />
+			</div>
+			<div class="form-group">
+				<label>Phone Number:</label> <input required type="tel"
+					class="form-control" ng-model="user.phoneNumber" />
+			</div>
+
+			<div class="form-group">
+				<label>Country:</label>
+				<p>selected Country is : {{user.country}}</p>
+				<select ng-model="user.countryId">
+					<option ng-repeat="country in countries" value="{{country.id}}">{{country.name}}</option>
+				</select>
+			</div>
+
+
+			<button type="submit" class="btn btn-default" ng-click="create()">Create </button>
+			<hr />
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<ul>
+						<li ng-repeat="curUser in users"><a
+							ng-click="get(curUser.id)">{{curUser.name}} -
+								{{curUser.emailAddress}}</a></li>
+					</ul>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
 </html>

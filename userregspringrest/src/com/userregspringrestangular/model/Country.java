@@ -39,12 +39,10 @@ public class Country {
 	@Column(name = "region_id")
 	private long regionId;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "region_id", insertable = false, updatable = false, nullable = false)
 	private Region region;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
-	private Set<User> users = new HashSet<User>(0);
 
 	public long getId() {
 		return id;
@@ -77,13 +75,5 @@ public class Country {
 	public void setRegion(Region region) {
 		this.region = region;
 	}
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
+	
 }

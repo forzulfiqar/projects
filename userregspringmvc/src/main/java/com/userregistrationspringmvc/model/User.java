@@ -55,7 +55,7 @@ public class User {
 	@Column(name = "country_id")
 	private long countryId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "country_id", insertable = false, updatable = false, nullable = false)
 	private Country country;
 

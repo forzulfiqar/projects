@@ -10,8 +10,15 @@ contactApp.controller("UserController", function($scope, $http) {
 			});
 	};
 	
+	$scope.getCountries = function() {
+		$http.get('api/getallcountries')
+			.success(function(data) {				
+				$scope.countries = data;
+			});
+	};
+	
 	$scope.create = function() {
-		$http.put('/api/user/create', $scope.contact)
+		$http.put('api/user/create', $scope.user)
 			.success(function() {
 				$scope.user = {};
 				$scope.getAll();
@@ -26,5 +33,6 @@ contactApp.controller("UserController", function($scope, $http) {
 			});
 	};
 	
+	$scope.getCountries();
 	$scope.getAll();
 });

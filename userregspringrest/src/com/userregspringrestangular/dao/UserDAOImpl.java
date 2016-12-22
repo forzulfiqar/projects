@@ -5,8 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.userregspringrestangular.model.User;
@@ -41,9 +40,18 @@ public class UserDAOImpl implements UserDAO {
     	        
         List<User> usersList = query.list();
         for(User u : usersList){
-           // logger.info("User:" + u.getEmailAddress());
+            //logger.info("User:" + u.getEmailAddress());
         }
         return usersList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public User getUserById(long id) {
+    	Session session = this.sessionFactory.getCurrentSession();    	
+    	User user = (User) session.get(User.class, id);
+    	return user;
     }
 
 }

@@ -34,10 +34,6 @@ public class Region {
 	@Column(name = "name")
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "region_id")
-	private Set<Country> countries = new HashSet<Country>(0);
-
 	public long getId() {
 		return id;
 	}
@@ -52,14 +48,6 @@ public class Region {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Set<Country> getCountries() {
-		return countries;
-	}
-
-	public void setCountries(Set<Country> countries) {
-		this.countries = countries;
 	}
 
 }
