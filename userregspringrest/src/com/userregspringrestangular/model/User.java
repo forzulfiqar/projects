@@ -25,7 +25,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "userofapp")
-@ManagedBean(name = "user")
+//@ManagedBean(name = "user")
 public class User {
 
 	@Id

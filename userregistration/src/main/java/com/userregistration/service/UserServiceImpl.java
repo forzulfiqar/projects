@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
 //import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +37,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.cla
     }
 	
 	@Override
-    @Transactional
+    @Transactional(propagation=Propagation.REQUIRED)
     public List<User> listUsers() {
         return this.userDAO.listUsers();
     }

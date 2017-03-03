@@ -23,7 +23,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name = "role")
-@ManagedBean(name = "role")
+//@ManagedBean(name = "role")
 public class Role {
 
 	@Id

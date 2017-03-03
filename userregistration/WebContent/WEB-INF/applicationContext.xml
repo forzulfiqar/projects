@@ -51,6 +51,25 @@
 				<beans:prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect
 				</beans:prop>
 				<beans:prop key="hibernate.show_sql">true</beans:prop>
+				<beans:prop key="hibernate.generate_statistics">true</beans:prop>
+
+				<!-- Caching properteis -->
+				<!-- Very Important property. Caching does not work if it is not correct -->
+				<beans:prop key="hibernate.cache.region.factory_class">
+					org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+				</beans:prop>
+
+
+				<beans:prop key="hibernate.cache.use_second_level_cache">true</beans:prop>
+				<beans:prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
+				</beans:prop>
+				<beans:prop
+					key="hibernate.cache.provider_configuration_file_resource_path">ehcache-blah.xml</beans:prop>
+				<beans:prop key="hibernate.cache.use_query_cache">true</beans:prop>
+				<beans:prop key="hibernate.generate_statistics">true</beans:prop>
+				<beans:prop key="hibernate.cache.use_structured_entries">true</beans:prop>
+
+
 			</beans:props>
 		</beans:property>
 	</beans:bean>

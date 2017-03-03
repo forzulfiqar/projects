@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 /**
  * 
  * @author zulfiqar
@@ -25,7 +27,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "userofapp")
-@ManagedBean(name = "user")
+@ManagedBean(name = "user") //By default request scoped
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY, region="user")
 public class User {
 
 	@Id

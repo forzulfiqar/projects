@@ -25,7 +25,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name = "region")
-@ManagedBean(name = "region")
+//@ManagedBean(name = "region")
 public class Region {
 
 	@Id
