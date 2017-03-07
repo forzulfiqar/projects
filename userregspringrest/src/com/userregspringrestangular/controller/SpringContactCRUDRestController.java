@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +42,15 @@ public class SpringContactCRUDRestController implements ContactCRUDController {
 	
 	@Override
 	@RequestMapping(value =  "/users", method = RequestMethod.GET)
-	public @ResponseBody List<User> listUsers() {
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<User> listUsers() {
+		System.out.println("In listUsers");
 		return this.userDAO.listUsers();		
 	}
 	
 	@Override
 	@RequestMapping(value =  "/getallcountries", method = RequestMethod.GET)
+	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Country> getCountries() {
 		
 		ArrayList<Country> countries = new ArrayList<Country>();
