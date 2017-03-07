@@ -52,6 +52,8 @@
 				<value>com.userregspringrestangular.model.Region</value>
 				<value>com.userregspringrestangular.model.Role</value>
 				<value>com.userregspringrestangular.model.User</value>
+				<value>com.userregspringrestangular.model.BankAccount</value>
+				<value>com.userregspringrestangular.model.TransactionHistory</value>
 
 			</list>
 		</property>
@@ -71,9 +73,8 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<bean id="userDAO" class="com.userregspringrestangular.dao.UserDAOImpl">
-		<property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+	<bean id="sessionDataBean"
+		class="com.userregspringrestangular.util.SessionData">
 	</bean>
-
 
 </beans>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.userregspringrestangular.model.Contact;
+
 import com.userregspringrestangular.model.Country;
 import com.userregspringrestangular.model.User;
 
