@@ -74,8 +74,7 @@
 					<th width="120">Last Name</th>
 					<th width="80">Email Address</th>
 					<th width="80">Phone Number</th>
-					<th width="120">Country</th>
-
+					
 				</tr>
 
 
@@ -86,7 +85,7 @@
 						<td>${userObj.lastName}</td>
 						<td>${userObj.emailAddress}</td>
 						<td>${userObj.phoneNumber}</td>
-						<td>${userObj.country.name}</td>
+						
 					</tr>
 
 				</c:forEach>
