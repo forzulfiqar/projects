@@ -9,23 +9,12 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <!-- 
-  <context-param>
-    <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:applicationContext.xml</param-value>
-  </context-param>
-   -->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <servlet>
     <servlet-name>jersey-serlvet</servlet-name>
-     <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class> 
-   <!--  <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>  -->
-    <init-param>
-      <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-      <param-value>true</param-value>
-    </init-param>
+    <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
       <param-value>com.learning1.controller</param-value>

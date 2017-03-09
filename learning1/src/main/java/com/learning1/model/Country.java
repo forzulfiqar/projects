@@ -33,7 +33,7 @@ public class Country {
 	private long regionId;
 
 	//@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "region_id", insertable = false, updatable = false, nullable = false)
 	private Region region;
 	

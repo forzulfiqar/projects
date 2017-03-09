@@ -70,7 +70,7 @@ public class UserControllerImpl implements UserController {
 
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON })
-	// @Produces({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("/rest/createuser")
 	@Override
 	public void createNewUser(User c) throws Exception {
@@ -95,7 +95,7 @@ public class UserControllerImpl implements UserController {
 	
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON })
-	// @Produces({ MediaType.APPLICATION_JSON })
+	 @Produces({ MediaType.APPLICATION_JSON })
 	@Path("/rest/login")
 	@Override
 	public Response login(User u) throws Exception {

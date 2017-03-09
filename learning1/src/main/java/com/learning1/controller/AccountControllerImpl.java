@@ -36,7 +36,7 @@ public class AccountControllerImpl implements AccountController {
 	
 	@Path("/rest/getallaccounts")
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
+	//@Produces({ MediaType.APPLICATION_JSON })
 	@Override
 	public List<BankAccount> getAllAccounts() {
 
@@ -52,7 +52,7 @@ public class AccountControllerImpl implements AccountController {
 	@Path("/rest/getallaccountsofuser")
 	@GET
 	//@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
+	//@Produces({ MediaType.APPLICATION_JSON })
 	@Override
 	public List<BankAccount> getAllAccountsOfUser() {
 
@@ -71,7 +71,7 @@ public class AccountControllerImpl implements AccountController {
 
 	@Path("/rest/gettransactionbyid/{id}")
 	@GET
-	@Produces({ MediaType.APPLICATION_JSON })
+	//@Produces({ MediaType.APPLICATION_JSON })
 	@Override
 	public BankAccount getAccountById(@PathParam("id") long id) {
 		logger.info("In getUserById");
@@ -87,7 +87,7 @@ public class AccountControllerImpl implements AccountController {
 	
 	
 	@PUT
-	@Consumes({ MediaType.APPLICATION_JSON })
+	//@Consumes({ MediaType.APPLICATION_JSON })
 	// @Produces({ MediaType.APPLICATION_JSON })
 	@Path("/rest/transfer")
 	@Override
@@ -106,7 +106,7 @@ public class AccountControllerImpl implements AccountController {
 
 
 	@PUT
-	@Consumes({ MediaType.APPLICATION_JSON })
+	//@Consumes({ MediaType.APPLICATION_JSON })
 	// @Produces({ MediaType.APPLICATION_JSON })
 	@Path("/rest/createnewaccount")
 	@Override
