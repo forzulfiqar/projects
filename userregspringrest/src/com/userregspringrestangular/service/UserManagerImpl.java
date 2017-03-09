@@ -18,12 +18,7 @@ public class UserManagerImpl implements UserManager {
 	private UserDAO userDAO;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserManagerImpl.class);
-	   
-     
-    public void setUserDAO(UserDAO userDAO){
-        this.userDAO = userDAO;
-    }
-	
+		
     @SuppressWarnings("unchecked")
     @Override
     @Transactional

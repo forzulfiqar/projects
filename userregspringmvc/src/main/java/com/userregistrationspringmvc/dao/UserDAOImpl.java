@@ -11,6 +11,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.userregistrationspringmvc.model.Country;
@@ -18,17 +20,14 @@ import com.userregistrationspringmvc.model.Region;
 import com.userregistrationspringmvc.model.User;
 import com.userregistrationspringmvc.model.UsersReport;
 
-
+@Repository
 public class UserDAOImpl implements UserDAO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
 	 
-    private SessionFactory sessionFactory;
-     
-    public void setSessionFactory(SessionFactory sf){
-        this.sessionFactory = sf;
-    }
-	
+    @Autowired
+	private SessionFactory sessionFactory;
+  	
     @SuppressWarnings("unchecked")
     @Override
     @Transactional

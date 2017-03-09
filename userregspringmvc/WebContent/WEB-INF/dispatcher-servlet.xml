@@ -66,10 +66,4 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<bean id="userDAO" class="com.userregistrationspringmvc.dao.UserDAOImpl">
-		<property name="sessionFactory"
-			ref="hibernate4AnnotatedSessionFactory" />
-	</bean>	
-   
-
 </beans>

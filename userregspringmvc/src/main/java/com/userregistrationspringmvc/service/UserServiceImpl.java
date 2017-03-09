@@ -1,4 +1,4 @@
-package com.userregistration.service;
+package com.userregistrationspringmvc.service;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Propagation;
 //import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.userregistration.dao.UserDAO;
-import com.userregistration.model.User;
+import com.userregistrationspringmvc.dao.UserDAO;
+import com.userregistrationspringmvc.model.User;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.userregistrationspringmvc.dao.UserDAO;
 import com.userregistrationspringmvc.model.User;
+import com.userregistrationspringmvc.service.UserService;
 import com.userregistrationspringmvc.model.Country;
 import com.userregistrationspringmvc.model.Region;
 
@@ -25,12 +26,12 @@ import com.userregistrationspringmvc.model.Region;
 public class UserController {
 
 	@Autowired
-	private UserDAO userDAO;	
+	private UserService userService;	
 	
     @RequestMapping(value = "/registeruser", method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("user") User user) {
     	System.out.println("In registerUser");
-    	this.userDAO.registerUser(user);
+    	this.userService.registerUser(user);
     	System.out.println("Email Address: " + user.getEmailAddress());
 		return listUsers();		
 	}
@@ -40,7 +41,7 @@ public class UserController {
 
 		System.out.println("In listUsers");
 		
-		userDAO.listUsers();
+		this.userService.listUsers();
 		
 		List<Country> countries = new ArrayList<Country>();
 		
@@ -61,7 +62,7 @@ public class UserController {
 		countries.add(country);		
 		
 
-		List<User> listUsers = this.userDAO.listUsers();
+		List<User> listUsers = this.userService.listUsers();
 		ModelAndView model = new ModelAndView("users");
 		model.addObject("userList", listUsers);
 		model.addObject("user", new User());
@@ -69,16 +70,4 @@ public class UserController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/listregions", method = RequestMethod.GET)
-	public ModelAndView listRegions() {
-
-		System.out.println("In listRegions");
-		
-		List<Region> listRegions = this.userDAO.listRegions();
-		ModelAndView model = new ModelAndView("regioncountries");
-		model.addObject("regionsList", listRegions);		
-		return model;
-	}
-
-
 }

@@ -55,6 +55,7 @@
 
 				<!-- Caching properteis -->
 				<!-- Very Important property. Caching does not work if it is not correct -->
+				<!-- 
 				<beans:prop key="hibernate.cache.region.factory_class">
 					org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
 				</beans:prop>
@@ -68,6 +69,7 @@
 				<beans:prop key="hibernate.cache.use_query_cache">true</beans:prop>
 				<beans:prop key="hibernate.generate_statistics">true</beans:prop>
 				<beans:prop key="hibernate.cache.use_structured_entries">true</beans:prop>
+				 -->
 
 
 			</beans:props>
@@ -81,16 +83,5 @@
 	</beans:bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
-
-	<beans:bean id="userDAO" class="com.userregistration.dao.UserDAOImpl">
-		<beans:property name="sessionFactory"
-			ref="hibernate4AnnotatedSessionFactory" />
-	</beans:bean>
-	<beans:bean id="userServiceSpringBean"
-		class="com.userregistration.service.UserServiceImpl" scope="session">
-		<beans:property name="userDAO" ref="userDAO"></beans:property>
-	</beans:bean>
-
 
 </beans:beans>
