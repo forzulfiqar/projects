@@ -119,5 +119,15 @@ public class UserControllerImpl implements UserController {
 	    //return Response.temporaryRedirect(location).build();
 
 	}
+	
+	@PUT
+	@Consumes({ MediaType.APPLICATION_JSON })
+	//@Produces({ MediaType.APPLICATION_JSON })
+	@RequestMapping("/rest/testtransactions")
+	@Override
+	public void testTransactions(@RequestBody User u) throws Exception {
+		logger.info("In UserController.testTransactions");
+		this.userManager.testTransactions(u);
+	}
 
 }

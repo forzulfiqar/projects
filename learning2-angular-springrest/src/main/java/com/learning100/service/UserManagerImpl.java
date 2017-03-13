@@ -21,7 +21,7 @@ public class UserManagerImpl implements UserManager {
 		
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public void registerUser(User u) {
     	userDAO.registerUser(u);
         logger.info("User created successfully, User Details=" + u);
@@ -29,23 +29,40 @@ public class UserManagerImpl implements UserManager {
     
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public List<User> listUsers() {		
         return userDAO.listUsers();
     }
     
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public User getUserById(long id) {    	
     	return userDAO.getUserById(id);
     }
     
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public User login(User u) {
     	return userDAO.login(u);       
     }
-
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    //@Transactional
+    public void testTransactions(User u) throws Exception {
+    	logger.info("In UserManager.testTransactions");
+    	List<User> users = this.userDAO.listUsers();
+    	logger.info("Users list size 1: " + users.size());
+    	logger.info("User Name: " + u.getUserName());		
+    	userDAO.registerUser(u);
+    	logger.info("User persisted: ");
+    	users = this.userDAO.listUsers();
+    	logger.info("Users list size 2: " + users.size());
+    	if(true) {
+    		//throw new Exception("Test Exception message");
+    	}
+        logger.info("User created successfully, User Details=" + u);
+    }
 }

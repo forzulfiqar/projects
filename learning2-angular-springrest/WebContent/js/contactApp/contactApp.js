@@ -41,6 +41,14 @@ contactApp.controller("UserController", function($scope, $http) {
 				$scope.getAll();
 			});
 	};
+	
+	$scope.testTransactions = function() {		
+		$http.put('users/rest/testtransactions', $scope.user)
+			.success(function() {
+				$scope.user = {};
+				$scope.getAll();
+			});
+	};
 
 	$scope.getCountries();
 	$scope.getAll();

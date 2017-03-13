@@ -9,5 +9,5 @@ public interface UserManager {
 	 public List<User> listUsers();
 	 public User getUserById(long id);
 	 public User login(User u);
-
+	 public void testTransactions(User u) throws Exception;
 }

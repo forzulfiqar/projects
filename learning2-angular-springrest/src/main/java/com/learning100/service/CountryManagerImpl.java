@@ -26,7 +26,7 @@ public class CountryManagerImpl implements CountryManager {
 	
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public void create(Country c) {
     	countryDAO.create(c);
         logger.info("Country created successfully, User Details=" + c);
@@ -34,14 +34,14 @@ public class CountryManagerImpl implements CountryManager {
     
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public List<Country> getAll() {		
         return countryDAO.getAll();
     }
     
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
+    //@Transactional
     public Country getById(long id) {    	
     	return countryDAO.getById(id);
     }

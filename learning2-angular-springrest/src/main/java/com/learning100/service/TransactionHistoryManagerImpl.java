@@ -25,7 +25,7 @@ public class TransactionHistoryManagerImpl implements TransactionHistoryManager 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
+	//@Transactional
 	public void create(TransactionHistory c) {
 		transactionHistoryDAO.create(c);
 		logger.info("TransactionHistory created successfully, User Details=" + c);
@@ -33,14 +33,14 @@ public class TransactionHistoryManagerImpl implements TransactionHistoryManager 
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
+	//@Transactional
 	public List<TransactionHistory> getAll() {
 		return transactionHistoryDAO.getAll();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
+	//@Transactional
 	public TransactionHistory getById(long id) {
 		return transactionHistoryDAO.getById(id);
 	}

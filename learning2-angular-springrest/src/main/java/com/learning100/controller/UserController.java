@@ -17,5 +17,7 @@ public interface UserController {
 	public List<Country> getCountries();
 	
 	public void login(User c) throws Exception;
+	
+	public void testTransactions(User c) throws Exception;	
 
 }
