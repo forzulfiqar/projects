@@ -82,6 +82,7 @@
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>			
 			<!-- <tx:method name="get*" read-only="true" />	 -->	
+			<!-- timeout has some problem in postgresql <tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="false" rollback-for="Throwable" timeout="5"/> -->
 			<tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="false" rollback-for="Throwable"/>
 		</tx:attributes>
 	</tx:advice>
