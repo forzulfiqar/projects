@@ -10,6 +10,6 @@ public interface UserManager {
 	 public void deleteUser(User u);
 	 public List<User> listUsers();
 	 public User getUserById(long id);
-	 public User login(User u);
+	 public User login(String userName, String password);
 
 }

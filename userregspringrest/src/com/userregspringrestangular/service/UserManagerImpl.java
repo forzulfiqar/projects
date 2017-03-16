@@ -60,9 +60,8 @@ public class UserManagerImpl implements UserManager {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-    public User login(User u) {
-    	//return userDAO.login(u);       
-    	return null;
+    public User login(String userName, String password) {
+    	return userDAO.login(userName, password);       
     }
 
 }

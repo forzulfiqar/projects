@@ -20,31 +20,24 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO  {
 	public UserDAOImpl() {
 		super(User.class);
 	 }
-	
-	/*
-    @Autowired
-	private SessionFactory sessionFactory;
-   	
-    @Override
-    public void registerUser(User u) {
-        Session session = this.sessionFactory.getCurrentSession();
-        session.persist(u);
-        logger.info("User created successfully, User Details=" + u);
-    }
-    
+		
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> listUsers() {
-		
-		Session session = this.sessionFactory.getCurrentSession();  
-		
-    	Query query = session.createQuery("from User");
-    	        
+    public User login(String userName, String password) {
+    	User user = null;
+    	
+		Session session = getSessionFactory().getCurrentSession(); 		
+    	Query query = session.createQuery("from User u where u.userName=:userName and u.password=:password");
+    	  
+    	query.setParameter("userName", userName);
+    	query.setParameter("password", password);
+    	    	
         List<User> usersList = query.list();
-        for(User u : usersList){
-            logger.info("User:" + u.getEmailAddress());
+        if(usersList!=null && usersList.size()>0) {
+        	user = usersList.get(0);
         }
-        return usersList;
+        
+        return user;
     }
-    */
+    
 }

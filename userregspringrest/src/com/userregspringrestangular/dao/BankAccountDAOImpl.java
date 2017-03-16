@@ -15,59 +15,30 @@ import com.userregspringrestangular.model.TransactionHistory;
 import com.userregspringrestangular.model.User;
 
 @Repository
-public class BankAccountDAOImpl implements BankAccountDAO {
+public class BankAccountDAOImpl extends GenericDAO<BankAccount> implements BankAccountDAO  {
 
 	private static final Logger logger = LoggerFactory.getLogger(BankAccountDAOImpl.class);
 
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void create(BankAccount c) {
-		try {			
-			Session session = this.sessionFactory.getCurrentSession();
-			session.persist(c);
-			logger.info("BankAccount created successfully, User Details=" + c);
-		} catch (Exception e) {
-			logger.error("Exception persisting user. Message= " + e);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<BankAccount> getAll() {
-
-		Session session = this.sessionFactory.getCurrentSession();
-		Query query = session.createQuery("from BankAccount");
-		List<BankAccount> countriesList = query.list();
-		return countriesList;
-	}
+	public BankAccountDAOImpl() {
+		super(BankAccount.class);
+	 }
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BankAccount> getAllAccountsOfUser(long userId) {
 
-		Session session = this.sessionFactory.getCurrentSession();
+		Session session = getSessionFactory().getCurrentSession();
 		Query query = session.createQuery("from BankAccount bA where bA.user.id=:userId");
 		query.setParameter("userId", userId);
 		List<BankAccount> countriesList = query.list();
 		return countriesList;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public BankAccount getById(long id) {
-		Session session = this.sessionFactory.getCurrentSession();
-		BankAccount bankAccount = (BankAccount) session.get(BankAccount.class, id);
-		return bankAccount;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void transfer(TransactionHistory tH) {
 		try {			
-			Session session = this.sessionFactory.getCurrentSession();			
+			Session session = getSessionFactory().getCurrentSession();			
 			logger.info("BankAccountDAOImpl.transfer tH.getUser=" + tH.getUser());
 			session.persist(tH);
 			logger.info("Tranferred successfully, Details=" + tH);

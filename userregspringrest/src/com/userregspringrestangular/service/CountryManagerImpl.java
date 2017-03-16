@@ -28,7 +28,7 @@ public class CountryManagerImpl implements CountryManager {
     @Override
     @Transactional
     public void create(Country c) {
-    	countryDAO.create(c);
+    	countryDAO.save(c);
         logger.info("Country created successfully, User Details=" + c);
     }
     
@@ -36,16 +36,14 @@ public class CountryManagerImpl implements CountryManager {
     @Override
     @Transactional
     public List<Country> getAll() {		
-        return countryDAO.getAll();
+        return countryDAO.findAll();
     }
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public Country getById(long id) {    	
-    	return countryDAO.getById(id);
+    	return countryDAO.find(id);
     }
-
-
-
+    
 }

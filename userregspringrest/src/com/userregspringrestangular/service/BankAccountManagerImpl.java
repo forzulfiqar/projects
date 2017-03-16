@@ -28,30 +28,30 @@ public class BankAccountManagerImpl implements BankAccountManager {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
-    public void create(BankAccount c) {
-    	bankAccountDAO.create(c);
-        logger.info("BankAccount created successfully, User Details=" + c);
+    public void create(BankAccount bA) {
+    	bankAccountDAO.save(bA);
+        logger.info("BankAccount created successfully, User Details=" + bA);
     }
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public List<BankAccount> getAll() {		
-        return bankAccountDAO.getAll();
+        return bankAccountDAO.findAll();
     }
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public List<BankAccount> getAllAccountsOfUser(long userId) {		
-        return bankAccountDAO.getAll();
+        return bankAccountDAO.getAllAccountsOfUser(userId);
     }
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public BankAccount getById(long id) {    	
-    	return bankAccountDAO.getById(id);
+    	return bankAccountDAO.find(id);
     }
     
     @SuppressWarnings("unchecked")

@@ -6,7 +6,6 @@ import com.userregspringrestangular.model.User;
 
 public interface UserDAO extends GenericDAOInterface<User> {
 	
-	 //public void registerUser(User u);
-	 //public List<User> listUsers();
+	public User login(String userName, String password);
 
 }

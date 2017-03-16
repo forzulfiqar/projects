@@ -137,7 +137,7 @@ public class UserControllerImpl implements UserController {
 		logger.info("In login");
 		logger.info("User Name: " + u.getUserName());
 		logger.info("Password: " + u.getPassword());
-		User user = userManager.login(u);
+		User user = userManager.login(u.getUserName(),u.getPassword());
 		String redirectURI = "../login.html";
 		if(null!=user) {
 			logger.info("Successfully logged In:" + user.toString());
