@@ -17,8 +17,24 @@ contactApp.controller("UserController", function($scope, $http) {
 			});
 	};
 	
-	$scope.create = function() {		
+	$scope.createUser = function() {		
 		$http.put('users/rest/createuser', $scope.user)
+			.success(function() {
+				$scope.user = {};
+				$scope.getAll();
+			});
+	};
+	
+	$scope.updateUser = function() {		
+		$http.post('users/rest/updateuser', $scope.user)
+			.success(function() {
+				$scope.user = {};
+				$scope.getAll();
+			});
+	};
+	
+	$scope.deleteUser = function() {		
+		$http.post('users/rest/deleteuser', $scope.user)
 			.success(function() {
 				$scope.user = {};
 				$scope.getAll();

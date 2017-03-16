@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -85,6 +86,35 @@ public class UserControllerImpl implements UserController {
 		userManager.registerUser(c);
 
 	}
+	
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	@RequestMapping("/rest/updateuser")
+	@Override
+	public void updateUser(@RequestBody User c) throws Exception {
+
+		logger.info("In updateUser");
+
+		userManager.updateUser(c);
+
+	}
+	
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	@RequestMapping("/rest/deleteuser")
+	@Override
+	public void deleteUser(@RequestBody User c) throws Exception {
+
+		logger.info("In deleteUser");
+
+		userManager.deleteUser(c);
+
+	}
+
+
+	
 
 	@RequestMapping("/rest/getallcountries")
 	@GET

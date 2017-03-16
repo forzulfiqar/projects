@@ -13,6 +13,8 @@ public interface UserController {
 	public User getUserById(long id);
 
 	public void createNewUser(User c) throws Exception;
+	public void updateUser(User c) throws Exception;
+	public void deleteUser(User c) throws Exception;
 
 	public List<Country> getCountries();
 	

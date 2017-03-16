@@ -13,35 +13,31 @@ import org.springframework.stereotype.Repository;
 import com.userregspringrestangular.model.User;
 
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl extends GenericDAO<User> implements UserDAO  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
-	 
-	@Autowired
+	
+	public UserDAOImpl() {
+		super(User.class);
+	 }
+	
+	/*
+    @Autowired
 	private SessionFactory sessionFactory;
-    	
-    @SuppressWarnings("unchecked")
-    @Override    
+   	
+    @Override
     public void registerUser(User u) {
-    	try {
-    		/*
-    		if(true) {
-    			throw new Exception("exception message");
-    		}
-    		*/
-	        Session session = this.sessionFactory.getCurrentSession();
-	        session.persist(u);
-	        logger.info("User created successfully, User Details=" + u);
-    	} catch(Exception e) {
-    		logger.error("Exception persisting user. Message= " + e);
-    	}
+        Session session = this.sessionFactory.getCurrentSession();
+        session.persist(u);
+        logger.info("User created successfully, User Details=" + u);
     }
     
     @SuppressWarnings("unchecked")
-    @Override   
+    @Override
     public List<User> listUsers() {
 		
-		Session session = this.sessionFactory.getCurrentSession();    	
+		Session session = this.sessionFactory.getCurrentSession();  
+		
     	Query query = session.createQuery("from User");
     	        
         List<User> usersList = query.list();
@@ -50,33 +46,5 @@ public class UserDAOImpl implements UserDAO {
         }
         return usersList;
     }
-    
-    @SuppressWarnings("unchecked")
-    @Override 
-    public User getUserById(long id) {
-    	Session session = this.sessionFactory.getCurrentSession();    	
-    	User user = (User) session.get(User.class, id);
-    	return user;
-    }
-    
-    @SuppressWarnings("unchecked")
-    @Override    
-    public User login(User u) {
-    	User user = null;
-    	
-    	Session session = this.sessionFactory.getCurrentSession();    	
-    	Query query = session.createQuery("from User where userName=:userName and password=:password");
-    	
-    	query.setParameter("userName", u.getUserName());
-    	query.setParameter("password", u.getPassword());
-    	
-        List<User> usersList = query.list();
-        
-    	if(usersList!=null && usersList.size()>0) {
-    		user = usersList.get(0);
-    		logger.info("Logged in user from DB: " + user.toString());
-    	}
-    	return user;
-    }
-
+    */
 }

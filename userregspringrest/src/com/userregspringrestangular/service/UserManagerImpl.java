@@ -23,7 +23,23 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public void registerUser(User u) {
-    	userDAO.registerUser(u);
+    	userDAO.save(u);
+        logger.info("User created successfully, User Details=" + u);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public void updateUser(User u) {
+    	userDAO.update(u);
+        logger.info("User created successfully, User Details=" + u);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public void deleteUser(User u) {
+    	userDAO.delete(u.getId());
         logger.info("User created successfully, User Details=" + u);
     }
     
@@ -31,21 +47,22 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public List<User> listUsers() {		
-        return userDAO.listUsers();
+        return userDAO.findAll();
     }
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public User getUserById(long id) {    	
-    	return userDAO.getUserById(id);
+    	return userDAO.find(id);
     }
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public User login(User u) {
-    	return userDAO.login(u);       
+    	//return userDAO.login(u);       
+    	return null;
     }
 
 }
