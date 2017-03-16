@@ -12,12 +12,16 @@ import org.springframework.stereotype.Repository;
 
 import com.userregistration.model.User;
 
-
 @Repository
-public class UserDAOImpl implements UserDAO {
+public class UserDAOImpl extends GenericDAO<User> implements UserDAO  {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
-	 
+	
+	public UserDAOImpl() {
+		super(User.class);
+	 }
+	
+	/*
     @Autowired
 	private SessionFactory sessionFactory;
    	
@@ -42,5 +46,5 @@ public class UserDAOImpl implements UserDAO {
         }
         return usersList;
     }
-
+    */
 }

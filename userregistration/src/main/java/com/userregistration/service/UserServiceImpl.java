@@ -27,8 +27,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.cla
 	@Override
     @Transactional
     public String registerUser(User u) {		
-		
-        this.userDAO.registerUser(u);
+        this.userDAO.save(u);
         
         return "users.xhtml";
     }
@@ -37,7 +36,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.cla
     @Transactional()
     public List<User> listUsers() {
 		logger.info("In UserService.listUsers");
-        return this.userDAO.listUsers();
+        return this.userDAO.findAll();
     }
 	
 
