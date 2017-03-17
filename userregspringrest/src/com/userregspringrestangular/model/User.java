@@ -21,6 +21,8 @@ import javax.persistence.Table;
 @Table(name = "userofapp")
 //@ManagedBean(name = "user")
 public class User {
+	
+	public static final String DEFAULT_SORT_COLUMN = "firstName";
 
 	@Id
 	@Column(name = "id")

@@ -1,6 +1,7 @@
 package com.userregspringrestangular.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.userregspringrestangular.dao.UserDAO;
+import com.userregspringrestangular.model.TransactionHistory;
 import com.userregspringrestangular.model.User;
+import com.userregspringrestangular.util.QueryConstants;
 
 @Service
 public class UserManagerImpl implements UserManager {
@@ -39,7 +42,7 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public void deleteUser(User u) {
-    	userDAO.delete(u.getId());
+    	userDAO.deleteById(u.getId());
         logger.info("User created successfully, User Details=" + u);
     }
     
@@ -47,14 +50,20 @@ public class UserManagerImpl implements UserManager {
     @Override
     @Transactional
     public List<User> listUsers() {		
-        return userDAO.findAll();
-    }
+    	
+    	List resultEntitiesList = null;
+    	Map<String, Object> resultMap = userDAO.findAll();
+    	if(resultMap!=null && resultMap.get(QueryConstants.RESULT_ENTITIES_LIST)!=null) {
+    		resultEntitiesList = (List<User>)resultMap.get(QueryConstants.RESULT_ENTITIES_LIST);
+    	}
+        return resultEntitiesList;
+	}
     
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
     public User getUserById(long id) {    	
-    	return userDAO.find(id);
+    	return userDAO.findById(id);
     }
     
     @SuppressWarnings("unchecked")

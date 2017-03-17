@@ -1,6 +1,5 @@
 package com.userregspringrestangular.dao;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,19 +9,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public interface GenericDAOInterface<T> {
-
 	public void save(T entity);
 
-	public void delete(long id);
+	public T update(T entity);
 
-	public T update(T entity); 
+	public void deleteById(long id);
 
-	public T find(long entityID);
+	public void deleteEntity(T entity);
 
-	public List<T> findAll();
+	public T findById(long entityID);
 
-	public T findOneResult(String namedQuery, Map<String, Object> parameters);
+	public Map<String, Object> findAll();
 
 	public SessionFactory getSessionFactory();
-
 }
