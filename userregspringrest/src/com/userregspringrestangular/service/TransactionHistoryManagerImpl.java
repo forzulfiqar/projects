@@ -1,5 +1,7 @@
 package com.userregspringrestangular.service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,5 +55,19 @@ public class TransactionHistoryManagerImpl implements TransactionHistoryManager 
 	public TransactionHistory getById(long id) {
 		return transactionHistoryDAO.findById(id);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional	
+	public Map<String, Object> findTransactionsBetweenDates(long accountId, String fromtDate, String toDate, Map<String, Object> sortingAndPaginationParameters) {
+		
+		//List resultEntitiesList = null;
+    	Map<String, Object> resultMap = transactionHistoryDAO.findTransactionsBetweenDates(accountId, fromtDate, toDate, sortingAndPaginationParameters);
+    	/*
+    	if(resultMap!=null && resultMap.get(QueryConstants.RESULT_ENTITIES_LIST)!=null) {
+    		resultEntitiesList = (List<TransactionHistory>)resultMap.get(QueryConstants.RESULT_ENTITIES_LIST);
+    	}
+    	*/
+        return resultMap;
+	}	
 }

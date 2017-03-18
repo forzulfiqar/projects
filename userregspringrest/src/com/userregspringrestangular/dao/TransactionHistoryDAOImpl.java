@@ -1,17 +1,13 @@
 package com.userregspringrestangular.dao;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.userregspringrestangular.model.TransactionHistory;
-import com.userregspringrestangular.model.User;
 
 @Repository
 public class TransactionHistoryDAOImpl extends GenericDAO<TransactionHistory> implements TransactionHistoryDAO  {
@@ -22,4 +18,13 @@ public class TransactionHistoryDAOImpl extends GenericDAO<TransactionHistory> im
 		super(TransactionHistory.class);
 	}
 	
+	public Map<String, Object> findTransactionsBetweenDates(long accountId, String fromtDate, String toDate, Map<String, Object> sortingAndPaginationParameters) {
+		
+		String queryString = "";
+		
+		Map<String, Object> queryParameters = new HashMap<String, Object>();		
+		
+		return findResultForQuery(queryString, queryParameters, sortingAndPaginationParameters);
+		
+	}
 }

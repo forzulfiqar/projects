@@ -22,4 +22,7 @@ public interface GenericDAOInterface<T> {
 	public Map<String, Object> findAll();
 
 	public SessionFactory getSessionFactory();
+	
+	public Map<String, Object> findResultForQuery(String queryString, Map<String, Object> queryParameters,
+			Map<String, Object> sortingAndPaginationParameters);
 }

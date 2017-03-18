@@ -30,12 +30,9 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 		this.entityClass = entityClass;
 	}
 
-	public void save(T entity) {
-		logger.info("In Generic DAO save for: " + entityClass);
-		Session session = this.sessionFactory.getCurrentSession();
-		logger.info("1111111: " + entityClass);
-		session.persist(entity);
-		logger.info("222222" + entityClass);
+	public void save(T entity) {		
+		Session session = this.sessionFactory.getCurrentSession();		
+		session.persist(entity);		
 	}
 
 	public void deleteById(long id) {
@@ -55,8 +52,12 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 
 	public T findById(long entityID) {
 		Session session = this.sessionFactory.getCurrentSession();
-		return (T) session.get(entityClass, entityID); // session.load loads the object with only id
-														// populated and rest of the properties as proxy
+		return (T) session.get(entityClass, entityID); //Loads object with all values populated
+	}
+	
+	public T loadById(long entityID) {
+		Session session = this.sessionFactory.getCurrentSession();
+		return (T) session.load(entityClass, entityID); //Loads object with only id populated and all other values are proxies
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -71,7 +72,9 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 	
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> findResultForQuery(String queryString, Map<String, Object> queryParameters,
-			Map<String, Object> sortingParameters) {
+			Map<String, Object> sortingAndPaginationParameters) {
+		
+		logger.info("In GenericDAO.findResultForQuery: " + queryString);
 		
 		String sortColumn = QueryConstants.DEFAULT_SORT_COLUMN;
 		String sortOrder = QueryConstants.DEFAULT_SORT_ORDER;
@@ -79,34 +82,29 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 		int destinationPage = QueryConstants.DEFAULT_CURRENT_PAGE;
 		int recordsPerPage = QueryConstants.DEFAULT_RECORDS_PER_PAGE;
 				
-		if(sortingParameters!=null && sortingParameters.size()>0) {
-			if (sortingParameters.containsKey(QueryConstants.SORT_COLUMN)
-					&& sortingParameters.get(QueryConstants.SORT_COLUMN) != null) {
-				sortColumn = (String) sortingParameters.get(QueryConstants.SORT_COLUMN);
+		if(sortingAndPaginationParameters!=null && sortingAndPaginationParameters.size()>0) {
+			if (sortingAndPaginationParameters.containsKey(QueryConstants.SORT_COLUMN)
+					&& sortingAndPaginationParameters.get(QueryConstants.SORT_COLUMN) != null) {
+				sortColumn = (String) sortingAndPaginationParameters.get(QueryConstants.SORT_COLUMN);
 			}
-			if (sortingParameters.containsKey(QueryConstants.SORT_ORDER)
-					&& sortingParameters.get(QueryConstants.SORT_ORDER) != null) {
-				sortOrder = (String) sortingParameters.get(QueryConstants.SORT_ORDER);
+			if (sortingAndPaginationParameters.containsKey(QueryConstants.SORT_ORDER)
+					&& sortingAndPaginationParameters.get(QueryConstants.SORT_ORDER) != null) {
+				sortOrder = (String) sortingAndPaginationParameters.get(QueryConstants.SORT_ORDER);
 			}
-			if (sortingParameters.containsKey(QueryConstants.CURRENT_PAGE)
-					&& sortingParameters.get(QueryConstants.CURRENT_PAGE) != null) {
-				currentPage = Integer.parseInt((String) sortingParameters.get(QueryConstants.CURRENT_PAGE));
+			if (sortingAndPaginationParameters.containsKey(QueryConstants.CURRENT_PAGE)
+					&& sortingAndPaginationParameters.get(QueryConstants.CURRENT_PAGE) != null) {
+				currentPage = Integer.parseInt((String) sortingAndPaginationParameters.get(QueryConstants.CURRENT_PAGE));
 			}
-			if (sortingParameters.containsKey(QueryConstants.DESTINATION_PAGE)
-					&& sortingParameters.get(QueryConstants.DESTINATION_PAGE) != null) {
-				destinationPage = Integer.parseInt((String) sortingParameters.get(QueryConstants.DESTINATION_PAGE));
+			if (sortingAndPaginationParameters.containsKey(QueryConstants.DESTINATION_PAGE)
+					&& sortingAndPaginationParameters.get(QueryConstants.DESTINATION_PAGE) != null) {
+				destinationPage = Integer.parseInt((String) sortingAndPaginationParameters.get(QueryConstants.DESTINATION_PAGE));
 			}
-			if (sortingParameters.containsKey(QueryConstants.RECORDS_PER_PAGE)
-					&& sortingParameters.get(QueryConstants.RECORDS_PER_PAGE) != null) {
-				recordsPerPage = Integer.parseInt((String) sortingParameters.get(QueryConstants.RECORDS_PER_PAGE));
+			if (sortingAndPaginationParameters.containsKey(QueryConstants.RECORDS_PER_PAGE)
+					&& sortingAndPaginationParameters.get(QueryConstants.RECORDS_PER_PAGE) != null) {
+				recordsPerPage = Integer.parseInt((String) sortingAndPaginationParameters.get(QueryConstants.RECORDS_PER_PAGE));
 			}
 		}
-		/*
-		 * if(inputParameters.containsKey(QueryConstants.TOTAL_RECORDS) &&
-		 * inputParameters.get(QueryConstants.TOTAL_RECORDS)!=null) { sortColumn
-		 * = (String)inputParameters.get(QueryConstants.TOTAL_RECORDS); }
-		 */
-
+		
 		if (queryString != null && queryString.length() > 0) {
 			if (sortColumn != null && sortColumn.length() > 0) {
 				queryString += " order by " + sortColumn;
@@ -116,10 +114,10 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 			}
 		}
 
-		if (sortingParameters != null && !sortingParameters.isEmpty()) {
+		if (sortingAndPaginationParameters != null && !sortingAndPaginationParameters.isEmpty()) {
 			String key = null;
 			Object value = null;
-			for (Entry<String, Object> entry : sortingParameters.entrySet()) {
+			for (Entry<String, Object> entry : sortingAndPaginationParameters.entrySet()) {
 				key = entry.getKey();
 				value = entry.getValue();
 			}
@@ -138,11 +136,15 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 				populateQueryParameters(query, queryParameters);
 			}
 
-			listofEntities = query.list();
-			totalResults = listofEntities.size();
+			totalResults = query.list().size();
+			//totalResults = listofEntities.size();
 
-			// @TODO: Limit the result to current page results based on
-			// currentPage, destinationPage, recordsPerPage
+			// @TODO: Every query will run for two times
+			
+			int startRecordsFrom = (destinationPage-1) * recordsPerPage;
+			query.setFirstResult(startRecordsFrom);
+			query.setMaxResults(recordsPerPage);
+			listofEntities = query.list();
 
 			result.put(QueryConstants.RESULT_ENTITIES_LIST, listofEntities);
 			result.put(QueryConstants.TOTAL_RECORDS, new Integer(totalResults));

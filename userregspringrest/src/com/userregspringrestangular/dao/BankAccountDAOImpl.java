@@ -1,6 +1,8 @@
 package com.userregspringrestangular.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.userregspringrestangular.model.BankAccount;
 import com.userregspringrestangular.model.TransactionHistory;
 import com.userregspringrestangular.model.User;
+import com.userregspringrestangular.util.QueryConstants;
 
 @Repository
 public class BankAccountDAOImpl extends GenericDAO<BankAccount> implements BankAccountDAO  {
@@ -27,11 +30,15 @@ public class BankAccountDAOImpl extends GenericDAO<BankAccount> implements BankA
 	@Override
 	public List<BankAccount> getAllAccountsOfUser(long userId) {
 
-		Session session = getSessionFactory().getCurrentSession();
-		Query query = session.createQuery("from BankAccount bA where bA.user.id=:userId");
-		query.setParameter("userId", userId);
-		List<BankAccount> countriesList = query.list();
-		return countriesList;
+		List<BankAccount> bankAccountsList = null;		
+		
+		String queryString = "from BankAccount bA where bA.user.id=:userId";
+		Map<String, Object> queryParametersMap = new HashMap<String, Object>();
+		queryParametersMap.put("userId", userId);			
+		
+		Map<String, Object> result = findResultForQuery(queryString, queryParametersMap, null);
+		bankAccountsList = (List<BankAccount>)result.get(QueryConstants.RESULT_ENTITIES_LIST);
+		return bankAccountsList;		
 	}
 	
 	@SuppressWarnings("unchecked")

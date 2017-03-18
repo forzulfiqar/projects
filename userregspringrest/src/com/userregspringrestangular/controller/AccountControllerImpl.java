@@ -1,6 +1,7 @@
 package com.userregspringrestangular.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -23,7 +24,9 @@ import com.userregspringrestangular.model.BankAccount;
 import com.userregspringrestangular.model.TransactionHistory;
 import com.userregspringrestangular.service.BankAccountManager;
 import com.userregspringrestangular.service.CountryManager;
+import com.userregspringrestangular.service.TransactionHistoryManager;
 import com.userregspringrestangular.service.UserManagerImpl;
+import com.userregspringrestangular.util.QueryConstants;
 import com.userregspringrestangular.util.SessionData;
 
 @RestController
@@ -34,6 +37,9 @@ public class AccountControllerImpl implements AccountController {
 	@Autowired
 	private BankAccountManager bankAccountManager;
 	
+	@Autowired
+	private TransactionHistoryManager transactionHistoryManager;
+		
 	@Autowired
 	private SessionData sessionData;
 	
@@ -74,22 +80,37 @@ public class AccountControllerImpl implements AccountController {
 		return accounts;
 	}
 
-	@RequestMapping("/rest/gettransactionbyid/{id}")
+	@RequestMapping("/rest/getaccountbyid/{id}")
 	@GET
 	//@Produces({ MediaType.APPLICATION_JSON })
 	@Override
 	public BankAccount getAccountById(@PathVariable("id") long id) {
-		logger.info("In getUserById");
+		logger.info("In getAccountById");
 		logger.info("id: " + id);
-		BankAccount s = null;
+		BankAccount bA = null;
 		if (id > 0) {
-			s = bankAccountManager.getById(id);
-			logger.info("Account Number: " + s.getAccountNumber());
+			bA = bankAccountManager.getById(id);
+			logger.info("Account Number: " + bA.getId());
 		}
-		return s;
+		return bA;
 	}
 	
 	
+	@RequestMapping("/rest/gettransactionbyid/{id}")
+	@GET
+	//@Produces({ MediaType.APPLICATION_JSON })
+	@Override
+	public TransactionHistory getTransactionById(@PathVariable("id") long id) {
+		logger.info("In getTransactionById");
+		logger.info("id: " + id);
+		TransactionHistory tH = null;
+		if (id > 0) {
+			tH = transactionHistoryManager.getById(id);
+			logger.info("Account Number: " + tH.getId());
+		}
+		return tH;
+	}
+		
 	
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON })
@@ -123,4 +144,29 @@ public class AccountControllerImpl implements AccountController {
 
 	}
 
+	
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON })
+	//@Produces({ MediaType.APPLICATION_JSON })
+	@RequestMapping("/rest/getaccounttransactionsbetweendates")
+	@Override	
+	public List<TransactionHistory> findTransactionsBetweenDates(Long accountId, String fromtDate, String toDate) {
+		
+		logger.info("In findTransactionsBetweenDates");
+		
+		Map<String, Object> result = null;
+		
+		List<TransactionHistory> transactions = null;
+
+		if(sessionData!=null && sessionData.getUser()!=null) {
+			result = this.transactionHistoryManager.findTransactionsBetweenDates(accountId, fromtDate, toDate, null);
+			if(result!=null && result.get(QueryConstants.RESULT_ENTITIES_LIST)!=null) {
+				transactions = (List<TransactionHistory>)result.get(QueryConstants.RESULT_ENTITIES_LIST);
+			}
+		}
+
+		logger.info("user accounts list size: " + transactions.size());
+
+		return transactions;
+	}
 }

@@ -34,11 +34,22 @@ public class TransactionHistory {
 	@Column(name = "amount")
 	private double amount;
 
+	/*
 	@Column(name = "debit_account_id")
 	private long debitAccountId;
 
 	@Column(name = "credit_account_id")
 	private long creditAccountId;
+	*/
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "debit_account_id")
+	private BankAccount debitAccount;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "credit_account_id")
+	private BankAccount creditAccount;
+
 
 	@Column(name = "status")
 	private long status;
@@ -79,6 +90,7 @@ public class TransactionHistory {
 		this.amount = amount;
 	}
 
+	/*
 	public long getDebitAccountId() {
 		return debitAccountId;
 	}
@@ -94,15 +106,33 @@ public class TransactionHistory {
 	public void setCreditAccountId(long creditAccountId) {
 		this.creditAccountId = creditAccountId;
 	}
+	*/
+		
+	public BankAccount getDebitAccount() {
+		return debitAccount;
+	}
+
+	public void setDebitAccount(BankAccount debitAccount) {
+		this.debitAccount = debitAccount;
+	}
+
+	public BankAccount getCreditAccount() {
+		return creditAccount;
+	}
+
+	public void setCreditAccount(BankAccount creditAccount) {
+		this.creditAccount = creditAccount;
+	}
 
 	public long getStatus() {
 		return status;
 	}
-
+	
 	public void setStatus(long status) {
 		this.status = status;
 	}
 
+	
 	public User getUser() {
 		return user;
 	}

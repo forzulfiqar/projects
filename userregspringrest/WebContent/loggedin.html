@@ -29,16 +29,16 @@ a {
 			
 			<div class= "form-group">
 				<label>Debit Account:</label>				
-				<select ng-model="transactionHistory.debitAccountId">
-					<option ng-repeat="account in accounts" value="{{account.id}}">{{account.accountNumber}}</option>
+				<select ng-model="transactionHistory.debitAccount.id">
+					<option ng-repeat="daccount in accounts" value="{{daccount.id}}">{{daccount.accountNumber}}</option>
 				</select>
 			</div>
 			
 			
 			<div class="form-group">
 				<label>Credit Account:</label>				
-				<select ng-model="transactionHistory.creditAccountId">
-					<option ng-repeat="account in accounts" value="{{account.id}}">{{account.accountNumber}}</option>
+				<select ng-model="transactionHistory.creditAccount.id">
+					<option ng-repeat="caccount in accounts" value="{{caccount.id}}">{{caccount.accountNumber}}</option>
 				</select>
 			</div>
 			
