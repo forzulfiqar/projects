@@ -12,6 +12,6 @@ public final class QueryConstants {
 	public static final String DEFAULT_SORT_COLUMN = "1";
 	public static final String DEFAULT_SORT_ORDER = "ASC";
 	public static final Integer DEFAULT_CURRENT_PAGE = 1;	
-	public static final Integer DEFAULT_RECORDS_PER_PAGE = 10;	
+	public static final Integer DEFAULT_RECORDS_PER_PAGE = 100000000;	
 	
 }

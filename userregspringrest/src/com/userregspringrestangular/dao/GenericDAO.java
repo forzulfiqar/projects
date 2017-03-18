@@ -114,15 +114,6 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 			}
 		}
 
-		if (sortingAndPaginationParameters != null && !sortingAndPaginationParameters.isEmpty()) {
-			String key = null;
-			Object value = null;
-			for (Entry<String, Object> entry : sortingAndPaginationParameters.entrySet()) {
-				key = entry.getKey();
-				value = entry.getValue();
-			}
-		}
-
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		List<T> listofEntities = null;
@@ -136,20 +127,28 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 				populateQueryParameters(query, queryParameters);
 			}
 
-			totalResults = query.list().size();
-			//totalResults = listofEntities.size();
-
-			// @TODO: Every query will run for two times
+			if(sortingAndPaginationParameters!=null && sortingAndPaginationParameters.size()>0) {
+				totalResults = query.list().size();
+				//totalResults = listofEntities.size();
+	
+				// @TODO: Every query will run for two times
+				
+				int startRecordsFrom = (destinationPage-1) * recordsPerPage;
+				query.setFirstResult(startRecordsFrom);
+				query.setMaxResults(recordsPerPage);
+				listofEntities = query.list();
+	
+				//result.put(QueryConstants.RESULT_ENTITIES_LIST, listofEntities);
+				result.put(QueryConstants.TOTAL_RECORDS, new Integer(totalResults));
+				result.put(QueryConstants.CURRENT_PAGE, new Integer(destinationPage));
+				result.put(QueryConstants.SORT_ORDER, sortOrder);
+			} else {
+				listofEntities = query.list();
+				//result.put(QueryConstants.RESULT_ENTITIES_LIST, listofEntities);
+			}
 			
-			int startRecordsFrom = (destinationPage-1) * recordsPerPage;
-			query.setFirstResult(startRecordsFrom);
-			query.setMaxResults(recordsPerPage);
-			listofEntities = query.list();
-
 			result.put(QueryConstants.RESULT_ENTITIES_LIST, listofEntities);
-			result.put(QueryConstants.TOTAL_RECORDS, new Integer(totalResults));
-			result.put(QueryConstants.CURRENT_PAGE, new Integer(destinationPage));
-			result.put(QueryConstants.SORT_ORDER, sortOrder);
+			
 		} catch (Exception e) {
 			System.out.println("Error while running query: " + e.getMessage());
 			e.printStackTrace();
