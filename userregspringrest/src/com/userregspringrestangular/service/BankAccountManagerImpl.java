@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.userregspringrestangular.dao.BankAccountDAO;
+import com.userregspringrestangular.dao.TransactionHistoryDAO;
 import com.userregspringrestangular.model.BankAccount;
 import com.userregspringrestangular.model.TransactionHistory;
 import com.userregspringrestangular.util.QueryConstants;
@@ -18,15 +19,13 @@ import com.userregspringrestangular.util.QueryConstants;
 public class BankAccountManagerImpl implements BankAccountManager {
 		
 	@Autowired
-	private BankAccountDAO bankAccountDAO;	
+	private BankAccountDAO bankAccountDAO;
+	
+	@Autowired
+	private TransactionHistoryDAO transactionHistoryDAO;	
 	
 	private static final Logger logger = LoggerFactory.getLogger(BankAccountManagerImpl.class);
-	   
-     
-    public void setBankAccountDAO(BankAccountDAO bankAccountDAO){
-        this.bankAccountDAO = bankAccountDAO;
-    }
-	
+		
     @SuppressWarnings("unchecked")
     @Override
     @Transactional
@@ -65,7 +64,7 @@ public class BankAccountManagerImpl implements BankAccountManager {
     @Override
     @Transactional
     public void transfer(TransactionHistory tH) {
-    	bankAccountDAO.transfer(tH);
+    	transactionHistoryDAO.save(tH);
         logger.info("Tranferred successfully, User Details=" + tH);
     }
 

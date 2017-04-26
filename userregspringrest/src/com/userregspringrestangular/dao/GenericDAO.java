@@ -30,7 +30,12 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 		this.entityClass = entityClass;
 	}
 
-	public void save(T entity) {		
+	public void save(T entity) {
+		logger.info("In GenericDAO.save");
+		logger.info("sessionFactory: " + sessionFactory.toString());
+		logger.info("this class: " + this.toString());
+		logger.info("entityClass: " + entityClass.getName());
+		logger.info("entity: " + entity.getClass().getName());
 		Session session = this.sessionFactory.getCurrentSession();		
 		session.persist(entity);		
 	}
@@ -70,6 +75,11 @@ public abstract class GenericDAO<T> implements GenericDAOInterface<T> {
 		return findResultForQuery(queryString, null, null);
 	}
 	
+	/*This method can be given any query that is supposed to return the objects of a specific class
+	 * type. The given query may have joins with many tables and complex conditions in where clause
+	 * but as long as it returns the objects of a specific type (Initiated from a specific DAOImpl, it
+	 * will work with sorting and pagination covered
+	 */
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> findResultForQuery(String queryString, Map<String, Object> queryParameters,
 			Map<String, Object> sortingAndPaginationParameters) {

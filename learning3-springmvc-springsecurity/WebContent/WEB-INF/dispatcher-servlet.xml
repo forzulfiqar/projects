@@ -1,0 +1,115 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:security="http://www.springframework.org/schema/security"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd     
+                    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                    http://www.springframework.org/schema/security
+					http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+					
+	
+					
+	<security:http auto-config="true">
+		<security:intercept-url pattern="/**/admin**" access="ROLE_ADMIN" />
+		<security:intercept-url pattern="/**/dba**" access="ROLE_ADMIN,ROLE_DBA" />
+		
+		<security:form-login
+		    login-page="/users/login"
+		    default-target-url="/users/welcome"
+			authentication-failure-url="/users/login?error"
+			username-parameter="username"
+			password-parameter="password" />
+		<security:logout logout-success-url="/users/login?logout" />
+		<!-- enable csrf protection -->
+		<security:csrf/>
+		
+	</security:http>
+	
+	<!-- 
+	<security:authentication-manager>
+	  <security:authentication-provider>
+	    <security:user-service>
+			<security:user name="zulfiqar" password="123456" authorities="ROLE_USER" />
+			<security:user name="admin" password="123456" authorities="ROLE_ADMIN" />
+			<security:user name="dba" password="123456" authorities="ROLE_DBA" />
+	    </security:user-service>
+	  </security:authentication-provider>
+	</security:authentication-manager>
+	 -->
+	
+	<!-- Select users and user_roles from database -->
+	<security:authentication-manager>
+	  <security:authentication-provider>
+	  	<security:password-encoder hash="bcrypt" />
+		<security:jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query=
+		    "select username,password, enabled from users where username=?"
+		  authorities-by-username-query=
+		    "select username, role from user_roles where username =?  " />
+	  </security:authentication-provider>
+	</security:authentication-manager>
+	
+   
+   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      <property name="prefix" value="/" />
+      <property name="suffix" value=".jsp" />
+   </bean>
+   
+   
+   <!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<context:component-scan base-package="com.learning3" />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+
+		<property name="driverClassName" value="org.postgresql.Driver" />
+
+		<property name="url"
+			value="jdbc:postgresql://localhost:5432/userregisteration" />
+
+		<property name="username" value="postgres" />
+		<property name="password" value="postgres" />
+
+	</bean>
+
+	<!-- Hibernate 4 SessionFactory Bean definition -->
+	<bean id="hibernate4AnnotatedSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.learning3.model.Country</value>
+				<value>com.learning3.model.Region</value>
+				<value>com.learning3.model.Role</value>
+				<value>com.learning3.model.User</value>
+
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory"
+			ref="hibernate4AnnotatedSessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+</beans>
