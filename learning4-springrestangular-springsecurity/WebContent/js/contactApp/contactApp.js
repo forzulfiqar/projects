@@ -5,7 +5,7 @@ contactApp.controller("UserController", function($scope, $http) {
 	
 	$scope.getAll = function() {
 		
-		var encodedString = encode('bill:abc123');		
+		var encodedString = encode('admin:123456');		
 		
 		$http({
 			url : "users/rest/getallusers",
@@ -30,7 +30,7 @@ contactApp.controller("UserController", function($scope, $http) {
 	
 	$scope.getCountries = function() {
 		
-		var encodedString = encode('bill:abc123');		
+		var encodedString = encode('admin:123456');		
 		
 		$http({
 			url : "users/rest/getallcountries",
