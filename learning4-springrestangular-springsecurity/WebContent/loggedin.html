@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script src="js/angular/angular.min.js"></script>
+<script src="js/jQuery/dist/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css"
+	href="js/bootstrap/dist/css/bootstrap.min.css" />
+<script src="js/transactionsApp/transactionsApp.js"></script>
+<style type="text/css">
+a {
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div class="container" ng-app="TransactionsApp"
+		ng-controller="TransactionsController">
+		<h1>Transfer money</h1>
+
+		<form>
+			
+			<div class="form-group">
+				<label>:</label>Type<input required type="text"
+					class="form-control" ng-model="transactionHistory.amount" />
+			</div>	
+			
+			
+			<div class= "form-group">
+				<label>Debit Account:</label>				
+				<select ng-model="transactionHistory.debitAccount.id">
+					<option ng-repeat="daccount in accounts" value="{{daccount.id}}">{{daccount.accountNumber}}</option>
+				</select>
+			</div>
+			
+			
+			<div class="form-group">
+				<label>Credit Account:</label>				
+				<select ng-model="transactionHistory.creditAccount.id">
+					<option ng-repeat="caccount in accounts" value="{{caccount.id}}">{{caccount.accountNumber}}</option>
+				</select>
+			</div>
+			
+			<button type="submit" class="btn btn-default" ng-click="transfer()"> Transfer </button>
+						
+		</form>
+	</div>
+</body>
+</html>
