@@ -83,7 +83,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 	
 	<!-- Spring Security -->
 	<security:http auto-config="true">
-		<security:intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />				
+		<security:intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />	
+		<security:csrf disabled="true"/> 			
 	</security:http>	
 	
 	<!-- Select users and user_roles from database -->
@@ -96,7 +97,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 		  authorities-by-username-query=
 		    "select username, role from user_roles where username =?" />
 	  </security:authentication-provider>
-	</security:authentication-manager>	
+	</security:authentication-manager>
 	
+	
+		
+	<!-- Spring Security -->
 
 </beans>

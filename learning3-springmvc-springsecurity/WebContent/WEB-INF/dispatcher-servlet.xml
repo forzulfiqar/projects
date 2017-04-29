@@ -25,7 +25,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 			password-parameter="password" />
 		<security:logout logout-success-url="/users/login?logout" />
 		<!-- enable csrf protection -->
-		<security:csrf/>
+		<!-- <security:csrf /> -->
 		
 	</security:http>
 	

@@ -4,17 +4,53 @@ contactApp.controller("UserController", function($scope, $http) {
 	$scope.contact = {};
 	
 	$scope.getAll = function() {
+		
+		var encodedString = encode('admin:123456');		
+		
+		$http({
+			url : "users/rest/getallusers",
+			method : 'GET',
+			headers : {
+				Accept: 'application/json',   				
+			    Authorization: 'Basic ' + encodedString
+			      }
+			}).success(function(data){
+				$scope.users = data;
+			}).error(function(error){
+			    alert("login error: " + error);
+			});
+				
+		/*
 		$http.get('users/rest/getallusers')
 			.success(function(data) {				
 				$scope.users = data;
 			});
+			*/
 	};
 	
 	$scope.getCountries = function() {
+		
+		var encodedString = encode('admin:123456');		
+		
+		$http({
+			url : "users/rest/getallcountries",
+			method : 'GET',
+			headers : {
+				Accept: 'application/json',   				
+			    Authorization: 'Basic ' + encodedString
+			      }
+			}).success(function(data){
+				$scope.countries = data;
+			}).error(function(error){
+			    alert("login error: " + error);
+			});
+		
+		/*	
 		$http.get('users/rest/getallcountries')
 			.success(function(data) {				
 				$scope.countries = data;
 			});
+			*/
 	};
 	
 	$scope.createUser = function() {		
@@ -26,10 +62,15 @@ contactApp.controller("UserController", function($scope, $http) {
 	};
 	
 	$scope.updateUser = function() {		
+		
+		//alert("Update User");
+		
 		$http.post('users/rest/updateuser', $scope.user)
 			.success(function() {
 				$scope.user = {};
 				$scope.getAll();
+			}).error(function(error){
+			    alert("login error: " + error);
 			});
 	};
 	
@@ -107,4 +148,60 @@ askEmmaApp.controller("AskEmmaController", function($scope, $http) {
 	
 	
 });
+
+var PADCHAR = '=';
+
+var ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+function encode(s) {
+   
+    var i, b10;
+    var x = [];
+
+    // convert to string
+    s = "" + s;
+
+    var imax = s.length - s.length % 3;
+
+    if (s.length === 0) {
+        return s;
+    }
+    for (i = 0; i < imax; i += 3) {
+        b10 = (getbyte(s,i) << 16) | (getbyte(s,i+1) << 8) | getbyte(s,i+2);
+        x.push(ALPHA.charAt(b10 >> 18));
+        x.push(ALPHA.charAt((b10 >> 12) & 0x3F));
+        x.push(ALPHA.charAt((b10 >> 6) & 0x3f));
+        x.push(ALPHA.charAt(b10 & 0x3f));
+    }
+    switch (s.length - imax) {
+        case 1:
+            b10 = getbyte(s,i) << 16;
+            x.push(ALPHA.charAt(b10 >> 18) + ALPHA.charAt((b10 >> 12) & 0x3F) +
+                PADCHAR + PADCHAR);
+            break;
+        case 2:
+            b10 = (getbyte(s,i) << 16) | (getbyte(s,i+1) << 8);
+            x.push(ALPHA.charAt(b10 >> 18) + ALPHA.charAt((b10 >> 12) & 0x3F) +
+                ALPHA.charAt((b10 >> 6) & 0x3f) + PADCHAR);
+            break;
+    }
+    return x.join('');
+}
+
+function getbyte64(s,i) {
+    var idx = ALPHA.indexOf(s.charAt(i));
+    if (idx === -1) {
+        throw "Cannot decode base64";
+    }
+    return idx;
+}
+function getbyte(s,i) {
+    var x = s.charCodeAt(i);
+    if (x > 255) {
+        throw "INVALID_CHARACTER_ERR: DOM Exception 5";
+    }
+    return x;
+}
+
+
 
