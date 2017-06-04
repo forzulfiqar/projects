@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Implementation-Title: waffle-filter
+Copyright: 2017
+Implementation-Version: 1.8.3
+Build-Number: 
+Built-By: jerem
+Specification-Vendor: com.github.waffle
+Os-Arch: amd64
+Specification-Title: waffle-filter
+Implementation-Vendor-Id: com.github.waffle.demo
+Os-Name: Windows 10
+Implementation-Vendor: com.github.waffle
+Os-Version: 10.0
+X-Compile-Target-JDK: 1.7
+Build-Time: 2017-03-01 02:16:04
+Git-Revision: 
+X-Compile-Source-JDK: 1.7
+Created-By: Apache Maven 3.3.9
+Build-Jdk: 1.8.0_112
+Specification-Version: 1.8
+Implementation-URL: https://waffle.github.com/waffle/
+

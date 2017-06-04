@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="waffle-filter-1.8.3">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="jna-platform-4.3.0.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/jna-platform-4.3.0/jna-platform-4.3.0">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="slf4j-api-1.7.22.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/slf4j-api-1.7.22/slf4j-api-1.7.22">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="waffle-tomcat6-1.8.3.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/waffle-tomcat6-1.8.3/waffle-tomcat6-1.8.3">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="guava-20.0.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/guava-20.0/guava-20.0">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jna-4.3.0.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/jna-4.3.0/jna-4.3.0">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="jcl-over-slf4j-1.7.22.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/jcl-over-slf4j-1.7.22/jcl-over-slf4j-1.7.22">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="waffle-jna-1.8.3.jar" deploy-path="/WEB-INF/lib/" handle="module:/resource/waffle-jna-1.8.3/waffle-jna-1.8.3">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="waffle-filter-1.8.3"/>
+        <property name="java-output-path" value="/waffle-filter-1.8.3/build/classes"/>
+    </wb-module>
+</project-modules>
